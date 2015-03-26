@@ -1,7 +1,8 @@
-from plataforma.models import Rol
-from plataforma.models import Usuario
-from plataforma.serializers import RolSerializer
-from plataforma.serializers import UsuarioSerializer
+from plataforma.models import *
+from plataforma.serializers import *
+from rest_framework.decorators import detail_route, list_route
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework import generics
 
 
@@ -18,7 +19,32 @@ class UsuarioListCreate(generics.ListCreateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
     
+    
 class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Usuario.objects.all()
-    serializer_class = UsuarioSerializer        
+    serializer_class = UsuarioSerializer  
+
+class RedSocialListCreate(generics.ListCreateAPIView):
+    queryset = RedSocial.objects.all()
+    serializer_class = RedSocialSerializer
+    
+class RedSocialDetail(generics.RetrieveUpdateDestroyAPIView):
+
+    queryset = RedSocial.objects.all()
+    serializer_class = RedSocialSerializer 
+     
+
+class UsuarioRedesList(APIView):
+
+    def get(self, request, pk, format=None):
+        usuarioredes = UsuarioRedes.objects.filter(usuario_id=pk)
+        serializer = UsuarioRedesSerializer(usuarioredes, many=True)
+        return Response(serializer.data)  
+
+
+class UsuarioRedesDetail(generics.RetrieveUpdateDestroyAPIView):
+
+    queryset = UsuarioRedes.objects.all()
+    serializer_class = UsuarioRedesSerializer    
+        
