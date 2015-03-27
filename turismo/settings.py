@@ -36,25 +36,29 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     'rest_framework',
+    'corsheaders',
+    'rest_framework',
     'landing_page',
     'plataforma',
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
+     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+  
 )
 
 ROOT_URLCONF = 'turismo.urls'
 
 WSGI_APPLICATION = 'turismo.wsgi.application'
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -62,9 +66,9 @@ WSGI_APPLICATION = 'turismo.wsgi.application'
 DATABASES = {
     'default': {
  	'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'plataforma',
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'NAME': 'camjoha_turismo',
+        'USER': 'camjoha_turismo',
+        'PASSWORD': 'turismo@3945',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
@@ -82,6 +86,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
 
 
 # Static files (CSS, JavaScript, Images)

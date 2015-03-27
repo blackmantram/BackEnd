@@ -19,6 +19,7 @@ class Usuario(models.Model):
   telefono_institucion = models.CharField(max_length=200, blank=True,default=None)
   ubicacion_institucion = models.CharField(max_length=200, blank=True,default=None)
   direccion_institucion = models.CharField(max_length=200, blank=True,default=None)
+  correo_institucion = models.CharField(max_length=200, blank=True,default=None)
   NIT = models.CharField(max_length=200, blank=True,default=None)
   rol = models.ForeignKey(Rol,blank=False)
   redes = models.ManyToManyField(RedSocial, through='UsuarioRedes')

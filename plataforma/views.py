@@ -42,7 +42,10 @@ class UsuarioRedesList(APIView):
         serializer = UsuarioRedesSerializer(usuarioredes, many=True)
         return Response(serializer.data)  
 
-
+class UsuarioRedesListCreate(generics.ListCreateAPIView):
+    queryset = UsuarioRedes.objects.all()
+    serializer_class = UsuarioRedesSerializer 
+    
 class UsuarioRedesDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = UsuarioRedes.objects.all()
