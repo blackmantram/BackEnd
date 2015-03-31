@@ -3,6 +3,8 @@ from django.conf.urls import url
 
 class Rol(models.Model):
   nombre = models.CharField(max_length=200)
+  descripcion = models.CharField(max_length=200, blank=True, null=True)
+  imagen = models.CharField(max_length=200, blank=True, null=True)
 
 class RedSocial(models.Model):
     nombre = models.CharField(max_length=200)
@@ -14,13 +16,13 @@ class Usuario(models.Model):
   apellido1 = models.CharField(max_length=200)
   apellido2 = models.CharField(max_length=200)
   numero_documento = models.CharField(max_length=200)
-  correo = models.CharField(max_length=200, blank=True,default=None)
-  nombre_institucion = models.CharField(max_length=200, blank=True,default=None)
-  telefono_institucion = models.CharField(max_length=200, blank=True,default=None)
-  ubicacion_institucion = models.CharField(max_length=200, blank=True,default=None)
-  direccion_institucion = models.CharField(max_length=200, blank=True,default=None)
-  correo_institucion = models.CharField(max_length=200, blank=True,default=None)
-  NIT = models.CharField(max_length=200, blank=True,default=None)
+  correo = models.CharField(max_length=200, blank=True, null=True, default=None)
+  nombre_institucion = models.CharField(max_length=200, blank=True,null=True, default=None)
+  telefono_institucion = models.CharField(max_length=200, blank=True, null=True, default=None)
+  ubicacion_institucion = models.CharField(max_length=200, blank=True,null=True, default=None)
+  direccion_institucion = models.CharField(max_length=200, blank=True,null=True, default=None)
+  correo_institucion = models.CharField(max_length=200, blank=True,null=True, default=None)
+  NIT = models.CharField(max_length=200, blank=True, null=True,default=None)
   rol = models.ForeignKey(Rol,blank=False)
   redes = models.ManyToManyField(RedSocial, through='UsuarioRedes')
   
@@ -29,3 +31,4 @@ class UsuarioRedes(models.Model):
     url = models.CharField(max_length=200)  
     usuario = models.ForeignKey(Usuario,blank=False)
     red_social = models.ForeignKey(RedSocial,blank=False)
+    

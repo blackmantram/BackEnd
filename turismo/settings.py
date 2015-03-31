@@ -66,9 +66,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 DATABASES = {
     'default': {
  	'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'camjoha_turismo',
-        'USER': 'camjoha_turismo',
-        'PASSWORD': 'turismo@3945',
+        'NAME': 'plataforma',
+        'USER': 'root',
+        'PASSWORD': 'root',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
