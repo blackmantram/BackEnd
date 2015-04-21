@@ -31,4 +31,12 @@ class UsuarioRedes(models.Model):
     url = models.CharField(max_length=200)  
     usuario = models.ForeignKey(Usuario,blank=False)
     red_social = models.ForeignKey(RedSocial,blank=False)
+
+class ProblemaSolucion(models.Model):
+    titulo = models.CharField(max_length=200, null=False)
+    descripcion =models.TextField(null=True)
+    fecha = models.DateTimeField(auto_now=True, null=False)
+    usuario = models.ForeignKey(Usuario,null=False)
+
+
     
