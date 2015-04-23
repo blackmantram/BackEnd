@@ -36,7 +36,15 @@ class ProblemaSolucion(models.Model):
     titulo = models.CharField(max_length=200, null=False)
     descripcion =models.TextField(null=True)
     fecha = models.DateTimeField(auto_now=True, null=False)
+    tipo = models.CharField(max_length=1,choices=(('P','PROBLEMA'),('S','SOLUCION')),default='P',
+                                                  null=False, blank=False)
     usuario = models.ForeignKey(Usuario,null=False)
+
+class Categoria(models.Model):
+    nombre = models.CharField(max_length=200, blank=False, null=False)
+    nivel = models.IntegerField(default=0)
+    categoria_padre = models.ForeignKey("self",null=True) 
+
 
 
     
