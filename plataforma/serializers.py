@@ -4,6 +4,12 @@ from plataforma.models import Usuario
 from plataforma.models import Rol
 from plataforma.models import UsuarioRedes
 from plataforma.models import RedSocial
+from plataforma.models import Categoria
+from plataforma.models import ProblemaSolucion
+from plataforma.models import RespuestaProblemaSolucion
+
+
+
 
 class RedSocialSerializer(serializers.ModelSerializer):  
         class Meta:
@@ -21,6 +27,23 @@ class UsuarioSerializer(serializers.ModelSerializer):
    # rol = RolSerializer(read_only=True)
    class Meta:
         model = Usuario
+
+class Categoria(serializers.ModelSerializer):
+   # rol = RolSerializer(read_only=True)
+   class Meta:
+        model = Categoria
+
+class ProblemaSolucion(serializers.ModelSerializer):
+   class Meta:
+        model = ProblemaSolucion
+
+class RespuestaProblemaSolucion(serializers.ModelSerializer):
+   class Meta:
+        model = RespuestaProblemaSolucion
+
+
+
+       
 
         
 
