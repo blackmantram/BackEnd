@@ -50,4 +50,33 @@ class UsuarioRedesDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = UsuarioRedes.objects.all()
     serializer_class = UsuarioRedesSerializer    
-        
+
+class CategoriaListCreate(generics.ListCreateAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer   
+
+class CategoriaDetail(generics.RetrieveUpdateDestroyAPIView):
+
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer     
+
+class ProblemaSolucionListCreate(generics.ListCreateAPIView):
+    queryset = ProblemaSolucion.objects.all()
+    serializer_class = ProblemaSolucionSerializer 
+
+class ProblemaSolucionDetail(generics.RetrieveUpdateDestroyAPIView):
+
+    queryset = ProblemaSolucion.objects.all()
+    serializer_class = ProblemaSolucionSerializer  
+
+
+class RespuestaProblemaSolucionListCreate(generics.ListCreateAPIView):
+    queryset = RespuestaProblemaSolucion.objects.all()
+    serializer_class = RespuestaProblemaSolucionSerializer 
+
+class RespuestaProblemaSolucionDetail(generics.RetrieveUpdateDestroyAPIView):
+
+    queryset = RespuestaProblemaSolucion.objects.all()
+    serializer_class = RespuestaProblemaSolucionSerializer 
+
+

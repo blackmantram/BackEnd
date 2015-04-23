@@ -28,16 +28,16 @@ class UsuarioSerializer(serializers.ModelSerializer):
    class Meta:
         model = Usuario
 
-class Categoria(serializers.ModelSerializer):
+class CategoriaSerializer(serializers.ModelSerializer):
    # rol = RolSerializer(read_only=True)
    class Meta:
         model = Categoria
 
-class ProblemaSolucion(serializers.ModelSerializer):
+class ProblemaSolucionSerializer(serializers.ModelSerializer):
    class Meta:
         model = ProblemaSolucion
 
-class RespuestaProblemaSolucion(serializers.ModelSerializer):
+class RespuestaProblemaSolucionSerializer(serializers.ModelSerializer):
    class Meta:
         model = RespuestaProblemaSolucion
 
