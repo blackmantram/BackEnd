@@ -50,7 +50,7 @@ class ProblemaSolucion(models.Model):
 
 
 class RespuestaProblemaSolucion(models.Model):
-    titulo = models.CharField(max_length=200, null=False)
+    titulo = models.CharField(max_length=200, null=True)
     descripcion =models.TextField(null=True)
     fecha = models.DateTimeField(auto_now=True, null=False)
     tipo = models.CharField(max_length=1,choices=(('P','PROBLEMA'),('S','SOLUCION')),default='P',
