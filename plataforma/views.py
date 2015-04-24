@@ -63,6 +63,12 @@ class CategoriaDetail(generics.RetrieveUpdateDestroyAPIView):
 class ProblemaSolucionListCreate(generics.ListCreateAPIView):
     queryset = ProblemaSolucion.objects.all()
     serializer_class = ProblemaSolucionSerializer 
+    def get_queryset(self):
+        queryset = super(ProblemaSolucionListCreate, self).get_queryset()
+        if self.kwargs.get('usuario') is None:
+         return queryset.filter()
+
+        return queryset.filter(usuario=self.kwargs.get('usuario'))
 
 class ProblemaSolucionDetail(generics.RetrieveUpdateDestroyAPIView):
 
