@@ -65,10 +65,19 @@ class ProblemaSolucionListCreate(generics.ListCreateAPIView):
     serializer_class = ProblemaSolucionSerializer 
     def get_queryset(self):
         queryset = super(ProblemaSolucionListCreate, self).get_queryset()
-        if self.kwargs.get('usuario') is None:
-         return queryset.filter()
+        
+        token = self.request.QUERY_PARAMS.get('token', None)
 
-        return queryset.filter(usuario=self.kwargs.get('usuario'))
+        if self.kwargs.get('usuario') is not None:
+          return queryset.filter(usuario=self.kwargs.get('usuario'))
+        
+        if token is not None:
+          return queryset.filter(titulo__icontains=token)
+          
+
+        return queryset.filter()
+
+        
 
 class ProblemaSolucionDetail(generics.RetrieveUpdateDestroyAPIView):
 
