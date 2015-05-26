@@ -4,7 +4,7 @@ from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
-
+from rest_framework import viewsets
 
 class RolListCreate(generics.ListCreateAPIView):
     queryset = Rol.objects.all()
@@ -76,6 +76,51 @@ class ProblemaSolucionListCreate(generics.ListCreateAPIView):
           
 
         return queryset.filter()
+
+class Sugerencias(viewsets.ViewSet):
+    def list_sugerencias(self,request,token=None):
+
+      token = self.request.QUERY_PARAMS.get('token', None)
+
+      n_espacios = token.count(' ');
+      resultados = ProblemaSolucion.objects.filter(titulo__icontains=token); 
+  
+      sugerencias=[]
+      for resultado in resultados:
+           posicion = resultado.titulo.upper().find(token.upper());
+           if posicion>0:
+            posicion = resultado.titulo.upper().find(token.upper());
+           s=resultado.titulo
+           if posicion==0 or not(resultado.titulo[posicion-1].isalpha()): 
+              pos_espacios=[i for i, letter in enumerate(resultado.titulo[posicion:]) if letter == ' ']
+              if pos_espacios:
+                 if n_espacios==0:
+                   if resultado.titulo[posicion+len(token)]==' ':
+                     if len(pos_espacios)>1:
+                       palabra = resultado.titulo[posicion:posicion+pos_espacios[1]]
+                       
+                     else:
+                       palabra = resultado.titulo[posicion:]
+                       
+                   else: 
+                     palabra = resultado.titulo[posicion:posicion+pos_espacios[0]]
+                 else:
+                   if n_espacios+1<len(pos_espacios): 
+                     palabra = resultado.titulo[posicion:posicion+pos_espacios[n_espacios+1]]
+                   else:
+                     palabra = resultado.titulo[posicion:]
+              else:
+                palabra = resultado.titulo[posicion:]  
+
+              try: 
+                sugerencias.index({'sugerencia': palabra})
+                
+              except ValueError:
+                sugerencias.append({'sugerencia': palabra})
+                
+
+      return Response(sugerencias) 
+          
 
         
 
