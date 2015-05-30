@@ -113,13 +113,13 @@ class Sugerencias(viewsets.ViewSet):
                 palabra = resultado.titulo[posicion:]  
 
               try: 
-                sugerencias.index({'sugerencia': palabra})
+                sugerencias.index(palabra)
                 
               except ValueError:
-                sugerencias.append({'sugerencia': palabra})
+                sugerencias.append(palabra)
                 
 
-      return Response(sugerencias) 
+      return Response(sugerencias[1:6]) 
           
 
         
