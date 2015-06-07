@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import viewsets
+import logging
 
 class RolListCreate(generics.ListCreateAPIView):
     queryset = Rol.objects.all()
@@ -84,9 +85,14 @@ class Sugerencias(viewsets.ViewSet):
 
       n_espacios = token.count(' ');
       resultados = ProblemaSolucion.objects.filter(titulo__icontains=token); 
+      
+      logging.basicConfig()
+      logger = logging.getLogger(__name__)
+      
   
       sugerencias=[]
       for resultado in resultados:
+           logger.error("resultado"+resultado.titulo)
            posicion = resultado.titulo.upper().find(token.upper());
            if posicion>0:
             posicion = resultado.titulo.upper().find(token.upper());
@@ -98,12 +104,14 @@ class Sugerencias(viewsets.ViewSet):
                    if resultado.titulo[posicion+len(token)]==' ':
                      if len(pos_espacios)>1:
                        palabra = resultado.titulo[posicion:posicion+pos_espacios[1]]
-                       
+                       logger.error("if"+palabra)
                      else:
                        palabra = resultado.titulo[posicion:]
+                       logger.error("else"+palabra)
                        
                    else: 
                      palabra = resultado.titulo[posicion:posicion+pos_espacios[0]]
+
                  else:
                    if n_espacios+1<len(pos_espacios): 
                      palabra = resultado.titulo[posicion:posicion+pos_espacios[n_espacios+1]]
@@ -112,6 +120,7 @@ class Sugerencias(viewsets.ViewSet):
               else:
                 palabra = resultado.titulo[posicion:]  
 
+
               try: 
                 sugerencias.index(palabra)
                 
@@ -119,7 +128,7 @@ class Sugerencias(viewsets.ViewSet):
                 sugerencias.append(palabra)
                 
 
-      return Response(sugerencias[1:6]) 
+      return Response(sugerencias[0:5]) 
           
 
         
