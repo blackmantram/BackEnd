@@ -10,7 +10,6 @@ from plataforma.models import RespuestaProblemaSolucion
 
 
 
-
 class RedSocialSerializer(serializers.ModelSerializer):  
         class Meta:
             model = RedSocial      
