@@ -103,13 +103,10 @@ class Sugerencias(viewsets.ViewSet):
       n_espacios = token.count(' ');
       resultados = ProblemaSolucion.objects.filter(titulo__icontains=token); 
       
-      logging.basicConfig()
-      logger = logging.getLogger(__name__)
       
   
       sugerencias=[]
       for resultado in resultados:
-           logger.error("resultado"+resultado.titulo)
            posicion = resultado.titulo.upper().find(token.upper());
            if posicion>0:
             posicion = resultado.titulo.upper().find(token.upper());
@@ -120,11 +117,9 @@ class Sugerencias(viewsets.ViewSet):
                  if n_espacios==0:
                    if resultado.titulo[posicion+len(token)]==' ':
                      if len(pos_espacios)>1:
-                       palabra = resultado.titulo[posicion:posicion+pos_espacios[1]]
-                       logger.error("if"+palabra)
+                       palabra = resultado.titulo[posicion:posicion+pos_espacios[1]]                    
                      else:
-                       palabra = resultado.titulo[posicion:]
-                       logger.error("else"+palabra)
+                       palabra = resultado.titulo[posicion:] 
                        
                    else: 
                      palabra = resultado.titulo[posicion:posicion+pos_espacios[0]]
