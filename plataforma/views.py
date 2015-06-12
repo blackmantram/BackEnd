@@ -53,12 +53,29 @@ class UsuarioRedesDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class CategoriaListCreate(generics.ListCreateAPIView):
     queryset = Categoria.objects.all()
-    serializer_class = CategoriaSerializer   
+    serializer_class = CategoriaSerializer 
+    def get_queryset(self):
+        queryset = super(CategoriaListCreate, self).get_queryset()
+        
+        nivel = self.request.QUERY_PARAMS.get('nivel', None)
+        padre = self.request.QUERY_PARAMS.get('padre', None)
+      
+        if nivel is not None:
+          if padre is not None:
+            return queryset.filter(nivel=nivel,categoria_padre_id=padre)            
+          else:
+            return queryset.filter(nivel=nivel)
+         
+
+          
+
+        return queryset.filter()  
 
 class CategoriaDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Categoria.objects.all()
-    serializer_class = CategoriaSerializer     
+    serializer_class = CategoriaSerializer
+
 
 class ProblemaSolucionListCreate(generics.ListCreateAPIView):
     queryset = ProblemaSolucion.objects.all()
