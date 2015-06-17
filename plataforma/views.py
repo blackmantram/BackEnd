@@ -59,7 +59,7 @@ class CategoriaListCreate(generics.ListCreateAPIView):
         queryset = super(CategoriaListCreate, self).get_queryset()
         
         nivel = self.request.QUERY_PARAMS.get('nivel', None)
-        padre = self.request.QUERY_PARAMS.get('padre', None)
+        padre = self.request.QUERY_PARAMS.get('categoria_padre', None)
       
         if nivel is not None:
           if padre is not None:
