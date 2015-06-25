@@ -39,7 +39,7 @@ class Categoria(models.Model):
     categoria_padre = models.ForeignKey("self",null=True) 
 
 class Tag(models.Model):
-    Tag = models.CharField(max_length=255, null=False)
+    tag = models.CharField(max_length=255, null=False)
     
 
 class ProblemaSolucion(models.Model):
@@ -49,7 +49,7 @@ class ProblemaSolucion(models.Model):
     tipo = models.CharField(max_length=1,choices=(('P','PROBLEMA'),('S','SOLUCION')),default='P',
                                                   null=False, blank=False)
     categoria = models.ManyToManyField(Categoria)
-    tag = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag)
     usuario = models.ForeignKey(Usuario,null=False)
 
 

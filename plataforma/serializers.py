@@ -36,6 +36,10 @@ class CategoriaSerializer(serializers.ModelSerializer):
 class ProblemaSolucionSerializer(serializers.ModelSerializer):
    class Meta:
         model = ProblemaSolucion
+   def save(self):
+        self.validated_data['tag'] = [1]
+        print(self.validated_data['tag'])
+        super(ProblemaSolucionSerializer,self).save()     
 
 class RespuestaProblemaSolucionSerializer(serializers.ModelSerializer):
    class Meta:
