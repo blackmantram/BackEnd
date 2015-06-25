@@ -7,6 +7,7 @@ from plataforma.models import RedSocial
 from plataforma.models import Categoria
 from plataforma.models import ProblemaSolucion
 from plataforma.models import RespuestaProblemaSolucion
+from plataforma.models import Tag
 
 
 
@@ -40,6 +41,9 @@ class RespuestaProblemaSolucionSerializer(serializers.ModelSerializer):
    class Meta:
         model = RespuestaProblemaSolucion
 
+class TagSerializer(serializers.ModelSerializer):
+   class Meta:
+        model = Tag
 
 
        

@@ -57,6 +57,9 @@ class RespuestaProblemaSolucion(models.Model):
                                                   null=False, blank=False)
     usuario = models.ForeignKey(Usuario,null=False)
 
+class Tag(models.Model):
+    Tag = models.CharField(max_length=255, null=False)
+    problema_solucion=models.ManyToManyField(ProblemaSolucion)
 
 
 

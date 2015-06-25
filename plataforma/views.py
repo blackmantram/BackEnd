@@ -160,4 +160,13 @@ class RespuestaProblemaSolucionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = RespuestaProblemaSolucion.objects.all()
     serializer_class = RespuestaProblemaSolucionSerializer 
 
+class TagListCreate(generics.ListCreateAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer 
+
+class TagDetail(generics.RetrieveUpdateDestroyAPIView):
+
+    queryset = RespuestaProblemaSolucion.objects.all()
+    serializer_class = TagSerializer  
+
 
