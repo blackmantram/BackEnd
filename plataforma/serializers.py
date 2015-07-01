@@ -34,7 +34,8 @@ class CategoriaSerializer(serializers.ModelSerializer):
         model = Categoria
 
 class ProblemaSolucionSerializer(serializers.Serializer):
-                                                  
+  
+  id = serializers.IntegerField(read_only=True)                                             
   titulo = serializers.CharField(max_length=200)
   descripcion =serializers.CharField()
   fecha = serializers.DateTimeField(required=False, allow_null=True)

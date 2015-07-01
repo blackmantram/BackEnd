@@ -144,6 +144,51 @@ class Sugerencias(viewsets.ViewSet):
 
       return Response(sugerencias[0:5]) 
           
+    def list_sugerencias_tags(self,request,token=None):
+
+      token = self.request.QUERY_PARAMS.get('token', None)
+
+      n_espacios = token.count(' ');
+      resultados = Tag.objects.filter(tag__icontains=token); 
+      
+      
+  
+      sugerencias=[]
+      for resultado in resultados:
+           posicion = resultado.tag.upper().find(token.upper());
+           if posicion>0:
+            posicion = resultado.tag.upper().find(token.upper());
+           s=resultado.tag
+           if posicion==0 or not(resultado.tag[posicion-1].isalpha()): 
+              pos_espacios=[i for i, letter in enumerate(resultado.tag[posicion:]) if letter == ' ']
+              if pos_espacios:
+                 if n_espacios==0:
+                   if resultado.tag[posicion+len(token)]==' ':
+                     if len(pos_espacios)>1:
+                       palabra = resultado.tag[posicion:posicion+pos_espacios[1]]                    
+                     else:
+                       palabra = resultado.tag[posicion:] 
+                       
+                   else: 
+                     palabra = resultado.tag[posicion:posicion+pos_espacios[0]]
+
+                 else:
+                   if n_espacios+1<len(pos_espacios): 
+                     palabra = resultado.tag[posicion:posicion+pos_espacios[n_espacios+1]]
+                   else:
+                     palabra = resultado.tag[posicion:]
+              else:
+                palabra = resultado.tag[posicion:]  
+
+
+              try: 
+                sugerencias.index(palabra)
+                
+              except ValueError:
+                sugerencias.append(palabra)
+                
+
+      return Response(sugerencias[0:5]) 
 
         
 
