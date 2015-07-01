@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^roles/', views.RolListCreate.as_view()),
     url(r'^usuariosredes/(?P<pk>[0-9]+)', views.UsuarioRedesDetail.as_view()),
     url(r'^usuariosredes', views.UsuarioRedesListCreate.as_view()),
+    #url(r'^usuarios/(?P<usuario>[0-9]+)/problemas_soluciones/(?P<pk>[0-9]+)/tags', views.ProblemaSolucionDetail.as_view()),
     url(r'^usuarios/(?P<usuario>[0-9]+)/problemas_soluciones/(?P<pk>[0-9]+)', views.ProblemaSolucionDetail.as_view()),
     url(r'^usuarios/(?P<usuario>[0-9]+)/problemas_soluciones', views.ProblemaSolucionListCreate.as_view()), 
     url(r'^buscar/$', views.ProblemaSolucionListCreate.as_view()), 
@@ -24,6 +25,9 @@ urlpatterns = patterns('',
     url(r'^categorias/(?P<pk>[0-9]+)', views.CategoriaDetail.as_view()),
     url(r'^categorias', views.CategoriaListCreate.as_view()), 
     url(r'^problemas_soluciones/(?P<pk>[0-9]+)', views.ProblemaSolucionDetail.as_view()),
+    url(r'^tags/(?P<pk>[0-9]+)', views.TagDetail.as_view()),
+    url(r'^tags', views.TagListCreate.as_view()), 
+
     url(r'^docs/', include('rest_framework_swagger.urls')), # url documentation
     
 

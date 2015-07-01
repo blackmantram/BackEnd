@@ -94,6 +94,8 @@ class ProblemaSolucionListCreate(generics.ListCreateAPIView):
           
 
         return queryset.filter()
+    
+        
 
 class Sugerencias(viewsets.ViewSet):
     def list_sugerencias(self,request,token=None):
@@ -159,5 +161,14 @@ class RespuestaProblemaSolucionDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = RespuestaProblemaSolucion.objects.all()
     serializer_class = RespuestaProblemaSolucionSerializer 
+
+class TagListCreate(generics.ListCreateAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer 
+
+class TagDetail(generics.RetrieveUpdateDestroyAPIView):
+
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer  
 
 

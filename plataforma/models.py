@@ -38,6 +38,10 @@ class Categoria(models.Model):
     nivel = models.IntegerField(default=0)
     categoria_padre = models.ForeignKey("self",null=True) 
 
+class Tag(models.Model):
+    tag = models.CharField(max_length=255, null=False)
+    
+
 class ProblemaSolucion(models.Model):
     titulo = models.CharField(max_length=200, null=False)
     descripcion =models.TextField(null=True)
@@ -45,6 +49,7 @@ class ProblemaSolucion(models.Model):
     tipo = models.CharField(max_length=1,choices=(('P','PROBLEMA'),('S','SOLUCION')),default='P',
                                                   null=False, blank=False)
     categoria = models.ManyToManyField(Categoria)
+    tags = models.ManyToManyField(Tag)
     usuario = models.ForeignKey(Usuario,null=False)
 
 
