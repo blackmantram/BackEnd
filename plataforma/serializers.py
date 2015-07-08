@@ -41,7 +41,7 @@ class ProblemaSolucionSerializer(serializers.Serializer):
   fecha = serializers.DateTimeField(required=False, allow_null=True)
   tipo = serializers.ChoiceField([('P','PROBLEMA'),('S','SOLUCION')])
 
-  categoria = serializers.PrimaryKeyRelatedField(many=True, queryset=Categoria.objects.all())
+  categorias = serializers.PrimaryKeyRelatedField(many=True, queryset=Categoria.objects.all())
   tags = serializers.SlugRelatedField(many=True,queryset=Tag.objects.all(),slug_field='tag')
   usuario = serializers.PrimaryKeyRelatedField(queryset=Usuario.objects.all())
    
@@ -55,7 +55,7 @@ class ProblemaSolucionSerializer(serializers.Serializer):
         tipo=validated_data["tipo"],
         usuario=validated_data["usuario"]
         );
-      instance.categoria = validated_data["categoria"]
+      instance.categorias = validated_data["categorias"]
       instance.tags = validated_data["tags"]
       instance.save()
       return instance
@@ -65,7 +65,7 @@ class ProblemaSolucionSerializer(serializers.Serializer):
       instance.descripcion = validated_data.get('descripcion', instance.descripcion)
       instance.fecha = validated_data.get('fecha', instance.fecha)
       instance.tipo = validated_data.get('tipo', instance.tipo) 
-      instance.categoria = validated_data.get('categoria', instance.categoria)
+      instance.categorias = validated_data.get('categorias', instance.categorias)
       instance.tags = validated_data.get('tags', instance.tags)
       instance.usuario = validated_data.get('usuario', instance.usuario)
       instance.save()
