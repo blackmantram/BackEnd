@@ -48,7 +48,7 @@ class ProblemaSolucion(models.Model):
     fecha = models.DateTimeField(auto_now=True, null=False)
     tipo = models.CharField(max_length=1,choices=(('P','PROBLEMA'),('S','SOLUCION')),default='P',
                                                   null=False, blank=False)
-    categoria = models.ManyToManyField(Categoria)
+    categorias = models.ManyToManyField(Categoria)
     tags = models.ManyToManyField(Tag)
     usuario = models.ForeignKey(Usuario,null=False)
 
