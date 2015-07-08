@@ -41,10 +41,11 @@ class ProblemaSolucionSerializer(serializers.Serializer):
   fecha = serializers.DateTimeField(required=False, allow_null=True)
   tipo = serializers.ChoiceField([('P','PROBLEMA'),('S','SOLUCION')])
 
-  categorias = serializers.PrimaryKeyRelatedField(many=True, queryset=Categoria.objects.all())
   tags = serializers.SlugRelatedField(many=True,queryset=Tag.objects.all(),slug_field='tag')
   usuario = serializers.PrimaryKeyRelatedField(queryset=Usuario.objects.all())
-   
+  categorias = serializers.PrimaryKeyRelatedField(many=True, queryset=Categoria.objects.all())
+  categorias_completas = CategoriaSerializer(many=True,read_only=True, source="categorias")
+
   def to_internal_value(self, data):
     self.check_for_new_tags(data.get("tags")) #revisa cuales tags son nuevos
     return super(ProblemaSolucionSerializer,self).to_internal_value(data)
