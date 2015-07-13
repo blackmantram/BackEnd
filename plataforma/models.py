@@ -14,8 +14,8 @@ class RedSocial(models.Model):
 class Usuario(models.Model):
   nombres = models.CharField(max_length=200)
   apellido1 = models.CharField(max_length=200)
-  apellido2 = models.CharField(max_length=200)
-  numero_documento = models.CharField(max_length=200)
+  apellido2 = models.CharField(max_length=200,)
+  numero_documento = models.CharField(max_length=200,blank=True, null=True, default=None)
   correo = models.CharField(max_length=200, blank=True, null=True, default=None)
   nombre_institucion = models.CharField(max_length=200, blank=True,null=True, default=None)
   telefono_institucion = models.CharField(max_length=200, blank=True, null=True, default=None)
@@ -23,13 +23,14 @@ class Usuario(models.Model):
   direccion_institucion = models.CharField(max_length=200, blank=True,null=True, default=None)
   correo_institucion = models.CharField(max_length=200, blank=True,null=True, default=None)
   NIT = models.CharField(max_length=200, blank=True, null=True,default=None)
+  descripcion =models.TextField(null=True)
   rol = models.ForeignKey(Rol,blank=False)
   redes = models.ManyToManyField(RedSocial, through='UsuarioRedes')
 
   
 
 class UsuarioRedes(models.Model):    
-    url = models.CharField(max_length=200)  
+    url = models.CharField(max_length=200,blank=True, null=True, default=None) 
     usuario = models.ForeignKey(Usuario,blank=False)
     red_social = models.ForeignKey(RedSocial,blank=False)
 
