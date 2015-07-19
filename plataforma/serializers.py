@@ -32,7 +32,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
    def check_for_new_tags(self,tags): # Crea en la base aquellos tags que no existan
       for tag in tags:
-        print(tag)
+        
         try:
              tag_object = Tag.objects.get(tag=tag)
         except:
@@ -85,7 +85,7 @@ class ProblemaSolucionSerializer(serializers.Serializer):
 
   def check_for_new_tags(self,tags): # Crea en la base aquellos tags que no existan
       for tag in tags:
-        print(tag)
+        
         try:
              tag_object = Tag.objects.get(tag=tag)
         except:
