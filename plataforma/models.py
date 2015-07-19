@@ -10,7 +10,11 @@ class RedSocial(models.Model):
     nombre = models.CharField(max_length=200)
     url = models.CharField(max_length=200)
     icono = models.CharField(max_length=200, blank=True,default=None)
-    
+
+
+class Tag(models.Model):
+    tag = models.CharField(max_length=255, null=False)
+        
 class Usuario(models.Model):
   nombres = models.CharField(max_length=200)
   apellido1 = models.CharField(max_length=200)
@@ -26,6 +30,7 @@ class Usuario(models.Model):
   descripcion =models.TextField(null=True)
   rol = models.ForeignKey(Rol,blank=False)
   redes = models.ManyToManyField(RedSocial, through='UsuarioRedes')
+  tags = tags = models.ManyToManyField(Tag)
 
   
 
@@ -39,8 +44,6 @@ class Categoria(models.Model):
     nivel = models.IntegerField(default=0)
     categoria_padre = models.ForeignKey("self",null=True) 
 
-class Tag(models.Model):
-    tag = models.CharField(max_length=255, null=False)
     
 
 class ProblemaSolucion(models.Model):
