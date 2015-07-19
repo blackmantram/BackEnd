@@ -24,12 +24,23 @@ class RolSerializer(serializers.ModelSerializer):
         model = Rol
                     
 class UsuarioSerializer(serializers.ModelSerializer):
-   # rol = RolSerializer(read_only=True)
+   tags = serializers.SlugRelatedField(many=True,queryset=Tag.objects.all(),slug_field='tag')
+    
+   def to_internal_value(self, data):
+      self.check_for_new_tags(data.get("tags")) #revisa cuales tags son nuevos
+      return super(UsuarioSerializer,self).to_internal_value(data)
+
+   def check_for_new_tags(self,tags): # Crea en la base aquellos tags que no existan
+      for tag in tags:
+        print(tag)
+        try:
+             tag_object = Tag.objects.get(tag=tag)
+        except:
+             tag_object = Tag.objects.create(tag=tag)   
    class Meta:
         model = Usuario
 
 class CategoriaSerializer(serializers.ModelSerializer):
-   # rol = RolSerializer(read_only=True)
    class Meta:
         model = Categoria
 
