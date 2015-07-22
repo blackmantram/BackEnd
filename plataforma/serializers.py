@@ -24,15 +24,15 @@ class RolSerializer(serializers.ModelSerializer):
         model = Rol
                     
 class UsuarioSerializer(serializers.ModelSerializer):
-   tags = serializers.SlugRelatedField(many=True,queryset=Tag.objects.all(),slug_field='tag')
+   tags = serializers.SlugRelatedField(many=True,queryset=Tag.objects.all(),slug_field='tag', required=False)
     
    def to_internal_value(self, data):
-      self.check_for_new_tags(data.get("tags")) #revisa cuales tags son nuevos
+      if data.get("tags") is not None:   # si existen tags
+        self.check_for_new_tags(data.get("tags")) #entonces revisa cuales tags son nuevos
       return super(UsuarioSerializer,self).to_internal_value(data)
 
-   def check_for_new_tags(self,tags): # Crea en la base aquellos tags que no existan
+   def check_for_new_tags(self,tags): # Crea en la base aquellos tags que no existan 
       for tag in tags:
-        
         try:
              tag_object = Tag.objects.get(tag=tag)
         except:
@@ -52,14 +52,15 @@ class ProblemaSolucionSerializer(serializers.Serializer):
   fecha = serializers.DateTimeField(required=False, allow_null=True)
   tipo = serializers.ChoiceField([('P','PROBLEMA'),('S','SOLUCION')])
 
-  tags = serializers.SlugRelatedField(many=True,queryset=Tag.objects.all(),slug_field='tag')
+  tags = serializers.SlugRelatedField(many=True,queryset=Tag.objects.all(),slug_field='tag',required=False)
   usuario = serializers.PrimaryKeyRelatedField(queryset=Usuario.objects.all())
   categorias = serializers.PrimaryKeyRelatedField(many=True, queryset=Categoria.objects.all())
   categorias_completas = CategoriaSerializer(many=True,read_only=True, source="categorias")
 
   def to_internal_value(self, data):
-    self.check_for_new_tags(data.get("tags")) #revisa cuales tags son nuevos
-    return super(ProblemaSolucionSerializer,self).to_internal_value(data)
+        if data.get("tags") is not None:   # si existen tags
+          self.check_for_new_tags(data.get("tags")) #entonces revisa cuales tags son nuevos
+        return super(ProblemaSolucionSerializer,self).to_internal_value(data)
 
   def create(self, validated_data):  
       instance=ProblemaSolucion.objects.create(titulo=validated_data["titulo"],
@@ -84,6 +85,7 @@ class ProblemaSolucionSerializer(serializers.Serializer):
       return instance
 
   def check_for_new_tags(self,tags): # Crea en la base aquellos tags que no existan
+    if tags is not None:
       for tag in tags:
         
         try:
