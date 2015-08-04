@@ -75,7 +75,10 @@ class RespuestaProblemaSolucion(models.Model):
    
 class Pregunta(models.Model):
   enunciado = models.CharField(max_length=200, null=True)
-  tipo_pregunta = models.ForeignKey('TipoPregunta',null=False)
+  tipo_pregunta = models.CharField(max_length=1,choices=(('U','UNICA RESPUESTA'),
+    ('M','MULTIPLE RESPUESTA'),('L','LISTA')),default='U',
+                                                  null=False, blank=False)
+
 
 
 class Cuestionario(models.Model):
@@ -83,10 +86,6 @@ class Cuestionario(models.Model):
     descripcion =models.TextField(null=True)
     fecha = models.DateTimeField(auto_now=True, null=False)
     preguntas = models.ManyToManyField(Pregunta, through='CuestionarioPregunta')
-
-class TipoPregunta(models.Model):
-  titulo = models.CharField(max_length=200, null=True) 
-  cuestionario = models.ForeignKey(Cuestionario,null=False)
    
 
 class OpcionesDeRespuesta(models.Model):
