@@ -28,7 +28,7 @@ urlpatterns = patterns('',
     url(r'^problemas_soluciones/(?P<pk>[0-9]+)', views.ProblemaSolucionDetail.as_view()),
     url(r'^tags/(?P<pk>[0-9]+)', views.TagDetail.as_view()),
     url(r'^tags', views.TagListCreate.as_view()), 
-
+    url(r'^cuestionarios/(?P<pk>[0-9]+)', views.CuestionarioRetrieve.as_view()), 
     url(r'^docs/', include('rest_framework_swagger.urls')), # url documentation
     
 

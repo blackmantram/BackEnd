@@ -214,6 +214,11 @@ class TagListCreate(generics.ListCreateAPIView):
 class TagDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Tag.objects.all()
-    serializer_class = TagSerializer  
+    serializer_class = TagSerializer 
+
+
+class CuestionarioRetrieve(generics.RetrieveAPIView):
+    queryset = Cuestionario.objects.all()
+    serializer_class = CuestionarioSerializer      
 
 

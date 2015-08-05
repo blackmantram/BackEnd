@@ -92,7 +92,7 @@ class OpcionesDeRespuesta(models.Model):
   respuesta = models.CharField(max_length=200, null=True)
   orden = models.IntegerField()
   valor = models.IntegerField()
-  pregunta = models.ForeignKey(Pregunta, null=False)
+  pregunta = models.ForeignKey(Pregunta, null=False, related_name='opciones')
 
 
 class CuestionarioPregunta(models.Model):
