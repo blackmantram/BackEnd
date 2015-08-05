@@ -222,3 +222,6 @@ class CuestionarioRetrieve(generics.RetrieveAPIView):
     serializer_class = CuestionarioSerializer      
 
 
+class CuestionarioList(generics.ListAPIView):
+    queryset = Cuestionario.objects.all()
+    serializer_class = CuestionarioSerializer      
