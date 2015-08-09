@@ -95,12 +95,13 @@ class OpcionesDeRespuesta(models.Model):
   pregunta = models.ForeignKey(Pregunta, null=False, related_name='opciones')
 
 
+
 class CuestionarioPregunta(models.Model):
   orden = models.IntegerField()
   pregunta = models.ForeignKey(Pregunta)
   cuestionario = models.ForeignKey(Cuestionario)
-  dependencia_respuesta = models.ForeignKey(OpcionesDeRespuesta,null=True)
-  
+  dependencia_respuestas = models.ManyToManyField(OpcionesDeRespuesta)
+
 
 class ProblemaSolucionOpcionRespuesta(models.Model):
   opcion_respuesta = models.ForeignKey(OpcionesDeRespuesta,null=False)
