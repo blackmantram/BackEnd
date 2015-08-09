@@ -102,9 +102,9 @@ class CuestionarioPregunta(models.Model):
   dependencia_respuesta = models.ForeignKey(OpcionesDeRespuesta,null=True)
   
 
-class UsuarioOpcionRespuesta(models.Model):
+class ProblemaSolucionOpcionRespuesta(models.Model):
   opcion_respuesta = models.ForeignKey(OpcionesDeRespuesta,null=False)
-  usuario = models.ForeignKey(Usuario,null=False)
+  problema_solucion = models.ForeignKey(ProblemaSolucion,null=False)
    
 
 

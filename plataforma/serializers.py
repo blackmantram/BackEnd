@@ -104,7 +104,7 @@ class TagSerializer(serializers.ModelSerializer):
    class Meta:
         model = Tag
 
-class OpcionesDeRespuestaSerializer(serializers.ModelSerializer):
+class OpcionesDeRespuestaSerializer(serializers.ModelSerializer,serializers.Serializer):
   class Meta:
         model = OpcionesDeRespuesta
   
