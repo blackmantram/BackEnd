@@ -109,18 +109,20 @@ class OpcionesDeRespuestaSerializer(serializers.ModelSerializer,serializers.Seri
   class Meta:
         model = OpcionesDeRespuesta
 
-class CuestionarioPreguntaSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = CuestionarioPregunta
 
-  
 class PreguntaSerializer(serializers.ModelSerializer):
    opciones = OpcionesDeRespuestaSerializer(many=True,read_only=True) 
    class Meta:
         model = Pregunta
 
+class CuestionarioPreguntaSerializer(serializers.ModelSerializer):
+  pregunta = PreguntaSerializer()
+  class Meta:
+    model = CuestionarioPregunta
+
+  
+
 class CuestionarioSerializer(serializers.ModelSerializer): 
-  # preguntas = PreguntaSerializer(many=True,read_only=True) 
    preguntas = CuestionarioPreguntaSerializer(source='cuestionariopregunta_set', many=True)  
    class Meta:
         model = Cuestionario      
