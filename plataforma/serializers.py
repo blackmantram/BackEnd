@@ -10,6 +10,7 @@ from plataforma.models import ProblemaSolucion
 from plataforma.models import RespuestaProblemaSolucion
 from plataforma.models import Tag
 from plataforma.models import Cuestionario
+from plataforma.models import CuestionarioPregunta
 from plataforma.models import Pregunta
 from plataforma.models import OpcionesDeRespuesta
 
@@ -107,6 +108,11 @@ class TagSerializer(serializers.ModelSerializer):
 class OpcionesDeRespuestaSerializer(serializers.ModelSerializer,serializers.Serializer):
   class Meta:
         model = OpcionesDeRespuesta
+
+class CuestionarioPreguntaSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = CuestionarioPregunta
+
   
 class PreguntaSerializer(serializers.ModelSerializer):
    opciones = OpcionesDeRespuestaSerializer(many=True,read_only=True) 
@@ -114,7 +120,8 @@ class PreguntaSerializer(serializers.ModelSerializer):
         model = Pregunta
 
 class CuestionarioSerializer(serializers.ModelSerializer): 
-   preguntas = PreguntaSerializer(many=True,read_only=True) 
+  # preguntas = PreguntaSerializer(many=True,read_only=True) 
+   preguntas = CuestionarioPreguntaSerializer(source='cuestionariopregunta_set', many=True)  
    class Meta:
         model = Cuestionario      
         depth=4     
