@@ -1,5 +1,6 @@
 from django.forms import widgets
 from rest_framework import serializers
+from plataforma import models
 from plataforma.models import Usuario
 from plataforma.models import Rol
 from plataforma.models import UsuarioRedes
@@ -8,8 +9,10 @@ from plataforma.models import Categoria
 from plataforma.models import ProblemaSolucion
 from plataforma.models import RespuestaProblemaSolucion
 from plataforma.models import Tag
-
-
+from plataforma.models import Cuestionario
+from plataforma.models import CuestionarioPregunta
+from plataforma.models import Pregunta
+from plataforma.models import OpcionesDeRespuesta
 
 class RedSocialSerializer(serializers.ModelSerializer):  
         class Meta:
@@ -101,6 +104,29 @@ class RespuestaProblemaSolucionSerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
    class Meta:
         model = Tag
+
+class OpcionesDeRespuestaSerializer(serializers.ModelSerializer,serializers.Serializer):
+  class Meta:
+        model = OpcionesDeRespuesta
+
+
+class PreguntaSerializer(serializers.ModelSerializer):
+   opciones = OpcionesDeRespuestaSerializer(many=True,read_only=True) 
+   class Meta:
+        model = Pregunta
+
+class CuestionarioPreguntaSerializer(serializers.ModelSerializer):
+  pregunta = PreguntaSerializer()
+  class Meta:
+    model = CuestionarioPregunta
+
+  
+
+class CuestionarioSerializer(serializers.ModelSerializer): 
+   preguntas = CuestionarioPreguntaSerializer(source='cuestionariopregunta_set', many=True)  
+   class Meta:
+        model = Cuestionario      
+        depth=4     
 
 
        

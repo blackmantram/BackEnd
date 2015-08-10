@@ -72,6 +72,46 @@ class RespuestaProblemaSolucion(models.Model):
     usuario = models.ForeignKey(Usuario,null=False)
 
 
+   
+class Pregunta(models.Model):
+  enunciado = models.CharField(max_length=200, null=True)
+  tipo_pregunta = models.CharField(max_length=1,choices=(('U','UNICA RESPUESTA'),
+    ('M','MULTIPLE RESPUESTA'),('L','LISTA')),default='U',
+                                                  null=False, blank=False)
+
+
+
+class Cuestionario(models.Model):
+    titulo = models.CharField(max_length=200, null=True)
+    descripcion =models.TextField(null=True)
+    fecha = models.DateTimeField(auto_now=True, null=False)
+    preguntas = models.ManyToManyField(Pregunta, through='CuestionarioPregunta')
+   
+
+class OpcionesDeRespuesta(models.Model):
+  respuesta = models.CharField(max_length=200, null=True)
+  orden = models.IntegerField()
+  valor = models.IntegerField()
+  pregunta = models.ForeignKey(Pregunta, null=False, related_name='opciones')
+
+
+
+class CuestionarioPregunta(models.Model):
+  orden = models.IntegerField()
+  pregunta = models.ForeignKey(Pregunta)
+  cuestionario = models.ForeignKey(Cuestionario)
+  dependencia_respuestas = models.ManyToManyField(OpcionesDeRespuesta)
+
+
+class ProblemaSolucionOpcionRespuesta(models.Model):
+  opcion_respuesta = models.ForeignKey(OpcionesDeRespuesta,null=False)
+  problema_solucion = models.ForeignKey(ProblemaSolucion,null=False)
+   
+
+
+
+
+
 
 
 
