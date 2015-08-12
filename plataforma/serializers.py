@@ -108,12 +108,14 @@ class TagSerializer(serializers.ModelSerializer):
 class OpcionesDeRespuestaSerializer(serializers.ModelSerializer,serializers.Serializer):
   class Meta:
         model = OpcionesDeRespuesta
+        
 
 
 class PreguntaSerializer(serializers.ModelSerializer):
    opciones = OpcionesDeRespuestaSerializer(many=True,read_only=True) 
    class Meta:
         model = Pregunta
+        
 
 class CuestionarioPreguntaSerializer(serializers.ModelSerializer):
   pregunta = PreguntaSerializer()

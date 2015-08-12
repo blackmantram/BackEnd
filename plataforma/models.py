@@ -93,6 +93,8 @@ class OpcionesDeRespuesta(models.Model):
   orden = models.IntegerField()
   valor = models.IntegerField()
   pregunta = models.ForeignKey(Pregunta, null=False, related_name='opciones')
+  class Meta:
+    ordering = ['orden']
 
 
 
@@ -101,6 +103,8 @@ class CuestionarioPregunta(models.Model):
   pregunta = models.ForeignKey(Pregunta)
   cuestionario = models.ForeignKey(Cuestionario)
   dependencia_respuestas = models.ManyToManyField(OpcionesDeRespuesta)
+  class Meta:
+    ordering = ['orden']
 
 
 class ProblemaSolucionOpcionRespuesta(models.Model):
