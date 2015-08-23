@@ -5,6 +5,7 @@ class Rol(models.Model):
   nombre = models.CharField(max_length=200)
   descripcion = models.CharField(max_length=200, blank=True, null=True)
   imagen = models.CharField(max_length=200, blank=True, null=True)
+  cuestionarios = models.ManyToManyField('Cuestionario', through='CuestionarioRol')
 
 class RedSocial(models.Model):
     nombre = models.CharField(max_length=200)
@@ -88,7 +89,14 @@ class Cuestionario(models.Model):
     imagen = models.CharField(max_length=200, blank=True, null=True)
     fecha = models.DateTimeField(auto_now=True, null=False)
     preguntas = models.ManyToManyField(Pregunta, through='CuestionarioPregunta')
-   
+
+
+
+class CuestionarioRol(models.Model):
+    cuestionario = models.ForeignKey(Cuestionario)
+    rol = models.ForeignKey(Rol)
+    tipo = models.CharField(max_length=1,choices=(('P','PROBLEMA'),('S','SOLUCION')),default='P',
+                                                  null=False, blank=False)
 
 class OpcionesDeRespuesta(models.Model):
   respuesta = models.CharField(max_length=200, null=True)
