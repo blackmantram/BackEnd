@@ -14,7 +14,23 @@ class RolListCreate(generics.ListCreateAPIView):
 class RolDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Rol.objects.all()
-    serializer_class = RolSerializer    
+    serializer_class = RolSerializer  
+
+class RolCuestionariosRetrieve(generics.ListAPIView):
+
+    queryset = Cuestionario.objects.all()
+    serializer_class = CuestionarioSerializer  
+
+    def get_queryset(self):
+        queryset = super(RolCuestionariosRetrieve, self).get_queryset()
+        tipo = self.request.QUERY_PARAMS.get('tipo', None)
+
+        if tipo is None:
+           return queryset.filter(rol=self.kwargs.get('pk'))
+ 
+        return queryset.filter(rol=self.kwargs.get('pk'),cuestionariorol__tipo=tipo)
+    
+
     
 class UsuarioListCreate(generics.ListCreateAPIView):
     queryset = Usuario.objects.all()
