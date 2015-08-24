@@ -93,10 +93,14 @@ class Cuestionario(models.Model):
 
 
 class CuestionarioRol(models.Model):
+    orden = models.IntegerField()
     cuestionario = models.ForeignKey(Cuestionario)
     rol = models.ForeignKey(Rol)
     tipo = models.CharField(max_length=1,choices=(('P','PROBLEMA'),('S','SOLUCION')),default='P',
                                                   null=False, blank=False)
+    class Meta:
+      ordering = ['orden']
+
 
 class OpcionesDeRespuesta(models.Model):
   respuesta = models.CharField(max_length=200, null=True)
