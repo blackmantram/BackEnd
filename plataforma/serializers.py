@@ -13,6 +13,7 @@ from plataforma.models import Cuestionario
 from plataforma.models import CuestionarioPregunta
 from plataforma.models import Pregunta
 from plataforma.models import OpcionesDeRespuesta
+from plataforma.models import CuestionarioRol
 
 class RedSocialSerializer(serializers.ModelSerializer):  
         class Meta:
@@ -24,7 +25,9 @@ class UsuarioRedesSerializer(serializers.ModelSerializer):
 
 class RolSerializer(serializers.ModelSerializer):
    class Meta:
-        model = Rol
+        model = Rol       
+
+
                     
 class UsuarioSerializer(serializers.ModelSerializer):
    tags = serializers.SlugRelatedField(many=True,queryset=Tag.objects.all(),slug_field='tag', required=False)
@@ -130,8 +133,9 @@ class CuestionarioSerializer(serializers.ModelSerializer):
         model = Cuestionario      
         depth=4     
 
+class CuestionarioRolSerializer(serializers.ModelSerializer):
+  cuestionario = CuestionarioSerializer()
+  class Meta:
+    model = CuestionarioRol
 
-       
-
-        
 
