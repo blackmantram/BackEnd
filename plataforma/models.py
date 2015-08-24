@@ -5,6 +5,7 @@ class Rol(models.Model):
   nombre = models.CharField(max_length=200)
   descripcion = models.CharField(max_length=200, blank=True, null=True)
   imagen = models.CharField(max_length=200, blank=True, null=True)
+  cuestionarios = models.ManyToManyField('Cuestionario', through='CuestionarioRol')
 
 class RedSocial(models.Model):
     nombre = models.CharField(max_length=200)
@@ -75,6 +76,7 @@ class RespuestaProblemaSolucion(models.Model):
    
 class Pregunta(models.Model):
   enunciado = models.CharField(max_length=200, null=True)
+  imagen = models.CharField(max_length=200, blank=True, null=True)
   tipo_pregunta = models.CharField(max_length=1,choices=(('U','UNICA RESPUESTA'),
     ('M','MULTIPLE RESPUESTA'),('L','LISTA')),default='U',
                                                   null=False, blank=False)
@@ -84,15 +86,29 @@ class Pregunta(models.Model):
 class Cuestionario(models.Model):
     titulo = models.CharField(max_length=200, null=True)
     descripcion =models.TextField(null=True)
+    imagen = models.CharField(max_length=200, blank=True, null=True)
     fecha = models.DateTimeField(auto_now=True, null=False)
     preguntas = models.ManyToManyField(Pregunta, through='CuestionarioPregunta')
-   
+
+
+
+class CuestionarioRol(models.Model):
+    orden = models.IntegerField()
+    cuestionario = models.ForeignKey(Cuestionario)
+    rol = models.ForeignKey(Rol)
+    tipo = models.CharField(max_length=1,choices=(('P','PROBLEMA'),('S','SOLUCION')),default='P',
+                                                  null=False, blank=False)
+    class Meta:
+      ordering = ['orden']
+
 
 class OpcionesDeRespuesta(models.Model):
   respuesta = models.CharField(max_length=200, null=True)
   orden = models.IntegerField()
   valor = models.IntegerField()
   pregunta = models.ForeignKey(Pregunta, null=False, related_name='opciones')
+  class Meta:
+    ordering = ['orden']
 
 
 
@@ -101,6 +117,8 @@ class CuestionarioPregunta(models.Model):
   pregunta = models.ForeignKey(Pregunta)
   cuestionario = models.ForeignKey(Cuestionario)
   dependencia_respuestas = models.ManyToManyField(OpcionesDeRespuesta)
+  class Meta:
+    ordering = ['orden']
 
 
 class ProblemaSolucionOpcionRespuesta(models.Model):
