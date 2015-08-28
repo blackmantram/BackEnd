@@ -124,6 +124,7 @@ class CuestionarioPregunta(models.Model):
 class ProblemaSolucionOpcionRespuesta(models.Model):
   opcion_respuesta = models.ForeignKey(OpcionesDeRespuesta,null=False)
   problema_solucion = models.ForeignKey(ProblemaSolucion,null=False)
+  
    
 
 

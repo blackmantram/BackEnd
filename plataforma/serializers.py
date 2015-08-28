@@ -14,6 +14,7 @@ from plataforma.models import CuestionarioPregunta
 from plataforma.models import Pregunta
 from plataforma.models import OpcionesDeRespuesta
 from plataforma.models import CuestionarioRol
+from plataforma.models import ProblemaSolucionOpcionRespuesta
 
 class RedSocialSerializer(serializers.ModelSerializer):  
         class Meta:
@@ -137,5 +138,9 @@ class CuestionarioRolSerializer(serializers.ModelSerializer):
   cuestionario = CuestionarioSerializer()
   class Meta:
     model = CuestionarioRol
+
+class ProblemaSolucionOpcionRespuestaSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = ProblemaSolucionOpcionRespuesta    
 
 

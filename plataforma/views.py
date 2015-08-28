@@ -240,4 +240,26 @@ class CuestionarioRetrieve(generics.RetrieveAPIView):
 
 class CuestionarioList(generics.ListAPIView):
     queryset = Cuestionario.objects.all()
-    serializer_class = CuestionarioSerializer      
+    serializer_class = CuestionarioSerializer 
+
+class CuestionarioGuardar(viewsets.ViewSet):
+  def create(self, request):
+        cuestionarios = request.data['cuestionarios']
+        id_usuario = request.data['id_usuario']
+        problema_solucion={'titulo':'perfil','descripcion':'perfil','tipo': 'P','usuario': id_usuario, 'categorias':[], 'tags':[] }
+        print request.data['id_usuario']
+        for cuestionario in cuestionarios:
+          for pregunta in cuestionario['preguntas']:
+            for opciones in pregunta["pregunta"]["opciones"]:
+              if opciones['dato']:
+                print opciones
+        # # # s = ProblemaSolucionOpcionRespuestaSerializer(data=request.data)
+        # s = ProblemaSolucionSerializer(
+        # if s.is_valid():
+        #   problema= s.save()
+        #   print "id problema"
+        #   print problema.id
+        # else:
+        #   print s.errors
+        
+        return Response()
