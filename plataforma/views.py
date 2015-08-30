@@ -29,6 +29,35 @@ class RolCuestionariosRetrieve(generics.ListAPIView):
            return queryset.filter(rol=self.kwargs.get('pk'))
  
         return queryset.filter(rol=self.kwargs.get('pk'),cuestionariorol__tipo=tipo)
+
+class RolCuestionariosSave(viewsets.ViewSet):
+
+    def create(self, request):
+        cuestionarios = request.data['cuestionarios']
+        id_usuario = request.data['id_usuario']
+        problema_solucion={'titulo':'perfil','descripcion':'perfil','tipo': 'P','usuario': id_usuario, 'categorias':[], 'tags':[] }
+        ps = ProblemaSolucionSerializer(data=problema_solucion)
+        ps.is_valid()
+        ps.save()
+        
+        try: 
+         for cuestionario in cuestionarios:
+          for pregunta in cuestionario['preguntas']:
+            if  pregunta["pregunta"]["tipo_pregunta"]!='M':
+              respuesta=ProblemaSolucionOpcionRespuestaSerializer(data={'opcion_respuesta': pregunta["pregunta"]["dato"], 'problema_solucion': ps.data["id"]})
+      
+            else:  
+               for opcion in pregunta["pregunta"]["opciones"]:
+                 if opcion['dato']:
+              
+                   respuesta=ProblemaSolucionOpcionRespuestaSerializer(data={'opcion_respuesta': opcion["id"], 'problema_solucion': ps.data["id"]})
+                   
+            if respuesta.is_valid():
+              respuesta.save()
+        except ValueError:
+          return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)          
+        
+        return Response({'status': 'cuestionario guardado'})      
     
 
     
@@ -242,24 +271,5 @@ class CuestionarioList(generics.ListAPIView):
     queryset = Cuestionario.objects.all()
     serializer_class = CuestionarioSerializer 
 
-class CuestionarioGuardar(viewsets.ViewSet):
-  def create(self, request):
-        cuestionarios = request.data['cuestionarios']
-        id_usuario = request.data['id_usuario']
-        problema_solucion={'titulo':'perfil','descripcion':'perfil','tipo': 'P','usuario': id_usuario, 'categorias':[], 'tags':[] }
-        print request.data['id_usuario']
-        for cuestionario in cuestionarios:
-          for pregunta in cuestionario['preguntas']:
-            for opciones in pregunta["pregunta"]["opciones"]:
-              if opciones['dato']:
-                print opciones
-        # # # s = ProblemaSolucionOpcionRespuestaSerializer(data=request.data)
-        # s = ProblemaSolucionSerializer(
-        # if s.is_valid():
-        #   problema= s.save()
-        #   print "id problema"
-        #   print problema.id
-        # else:
-        #   print s.errors
-        
-        return Response()
+
+

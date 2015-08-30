@@ -6,8 +6,7 @@ from plataforma import views
 
 urlpatterns = patterns('',
     # Examples:   //
-    # url(r'^$', 'views.index'),
-    # url(r'^$', landing_page.views.VistaUsuario.as_view()),
+    url(r'^roles/cuestionarios', views.RolCuestionariosSave.as_view({'post':'create'})), 
     url(r'^roles/(?P<pk>[0-9]+)/cuestionarios', views.RolCuestionariosRetrieve.as_view()), 
     url(r'^roles/(?P<pk>[0-9]+)', views.RolDetail.as_view()),  
     url(r'^roles/', views.RolListCreate.as_view()),
@@ -28,7 +27,6 @@ urlpatterns = patterns('',
     url(r'^problemas_soluciones/(?P<pk>[0-9]+)', views.ProblemaSolucionDetail.as_view()),
     url(r'^tags/(?P<pk>[0-9]+)', views.TagDetail.as_view()),
     url(r'^tags', views.TagListCreate.as_view()), 
-    url(r'^cuestionarios/nuevo', views.CuestionarioGuardar.as_view({'post': 'create'})), 
     url(r'^cuestionarios/(?P<pk>[0-9]+)', views.CuestionarioRetrieve.as_view()), 
     url(r'^cuestionarios', views.CuestionarioList.as_view()), 
     url(r'^docs/', include('rest_framework_swagger.urls')), # url documentation
