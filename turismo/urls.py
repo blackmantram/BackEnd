@@ -6,8 +6,7 @@ from plataforma import views
 
 urlpatterns = patterns('',
     # Examples:   //
-    # url(r'^$', 'views.index'),
-    # url(r'^$', landing_page.views.VistaUsuario.as_view()),
+    url(r'^roles/cuestionarios', views.RolCuestionariosSave.as_view({'post':'create'})), 
     url(r'^roles/(?P<pk>[0-9]+)/cuestionarios', views.RolCuestionariosRetrieve.as_view()), 
     url(r'^roles/(?P<pk>[0-9]+)', views.RolDetail.as_view()),  
     url(r'^roles/', views.RolListCreate.as_view()),
