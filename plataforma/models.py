@@ -71,7 +71,7 @@ class RespuestaProblemaSolucion(models.Model):
     tipo = models.CharField(max_length=1,choices=(('P','PROBLEMA'),('S','SOLUCION')),default='P',
                                                   null=False, blank=False)
     usuario = models.ForeignKey(Usuario,null=False)
-
+    respuestas_cuestionario = models.CharField(max_length=255, null=True)
 
    
 class Pregunta(models.Model):
