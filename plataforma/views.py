@@ -35,28 +35,34 @@ class RolCuestionariosSave(viewsets.ViewSet):
     def create(self, request):
         cuestionarios = request.data['cuestionarios']
         id_usuario = request.data['id_usuario']
-        problema_solucion={'titulo':'perfil','descripcion':'perfil','tipo': 'P','usuario': id_usuario, 'categorias':[], 'tags':[] }
-        ps = ProblemaSolucionSerializer(data=problema_solucion)
-        ps.is_valid()
-        ps.save()
+        s = "["
         
-        try: 
-         for cuestionario in cuestionarios:
+          # try: 
+        for cuestionario in cuestionarios:
           for pregunta in cuestionario['preguntas']:
-            if  pregunta["pregunta"]["tipo_pregunta"]!='M':
-              respuesta=ProblemaSolucionOpcionRespuestaSerializer(data={'opcion_respuesta': pregunta["pregunta"]["dato"], 'problema_solucion': ps.data["id"]})
-      
-            else:  
-               for opcion in pregunta["pregunta"]["opciones"]:
-                 if opcion['dato']:
-              
-                   respuesta=ProblemaSolucionOpcionRespuestaSerializer(data={'opcion_respuesta': opcion["id"], 'problema_solucion': ps.data["id"]})
+              if  pregunta["pregunta"]["tipo_pregunta"]!='M':
+                if pregunta["pregunta"]["dato"]!=0:
+                 valor = [ x["valor"] for x in pregunta["pregunta"]["opciones"] if int(x["id"])==int(pregunta["pregunta"]["dato"]) ][0]
+               #respuesta=ProblemaSolucionOpcionRespuestaSerializer(data={'opcion_respuesta': pregunta["pregunta"]["dato"], 'problema_solucion': ps.data["id"]})
+                 #s = s + pregunta["pregunta"]["id"] + ": ("+  pregunta["pregunta"]["dato"] + ","+ str(valor)+")"
+                 s = s + str(pregunta["pregunta"]["id"]) + ": ("+pregunta["pregunta"]["dato"]+ ","+ str(valor)+")"
+              else:  
+                for opcion in pregunta["pregunta"]["opciones"]:
+                  if opcion['dato']:
+                    s=s + str(pregunta["pregunta"]["id"])  + ": ("+  str(opcion["id"]) + "," + str(opcion["valor"])+")"     
+        #            #respuesta=ProblemaSolucionOpcionRespuestaSerializer(data={'opcion_respuesta': opcion["id"], 'problema_solucion': ps.data["id"]})
                    
-            if respuesta.is_valid():
-              respuesta.save()
-        except ValueError:
-          return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)          
+        #     #if respuesta.is_valid():
+        #      # respuesta.save()
+        # except ValueError:
+        #   return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)          
         
+        s = s+"]"
+        print s
+        # problema_solucion={'titulo':'perfil','descripcion':'perfil','tipo': 'P','usuario': id_usuario, 'categorias':[], 'tags':[] }
+        # ps = ProblemaSolucionSerializer(data=problema_solucion)
+        # #ps.is_valid()
+        #ps.save()
         return Response({'status': 'cuestionario guardado'})      
     
 
