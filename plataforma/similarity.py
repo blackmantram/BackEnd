@@ -40,7 +40,7 @@ def to_cuestionario(object_1, object_2):
         return respuesta    
 
 #{1: (4,1) , 2: [(3,3) , (2,2) ],3: (6,1) }
-def similarity(o1, o2):
+def similitud(o1, o2):
     funciones = {1: s2, 2: s1, 3: s2}
     s=0;
     n=0;

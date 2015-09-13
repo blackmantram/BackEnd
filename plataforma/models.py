@@ -124,6 +124,18 @@ class CuestionarioPregunta(models.Model):
 class ProblemaSolucionOpcionRespuesta(models.Model):
   opcion_respuesta = models.ForeignKey(OpcionesDeRespuesta,null=False)
   problema_solucion = models.ForeignKey(ProblemaSolucion,null=False)
+
+class Similitud(models.Model):
+  funcion = models.CharField(max_length=50, null=True)
+  descripcion =models.TextField(null=True)
+    
+  
+
+class PreguntasSimilitud(models.Model):
+  pregunta_problema = models.ForeignKey(Pregunta,null=False,related_name='pregunta_problema')
+  pregunta_solucion = models.ForeignKey(Pregunta,null=False,related_name='pregunta_solucion')
+  funcion = models.ForeignKey(Pregunta,null=False)
+
   
    
 

@@ -254,6 +254,28 @@ class CuestionarioRetrieve(generics.RetrieveAPIView):
 class CuestionarioList(generics.ListAPIView):
     queryset = Cuestionario.objects.all()
     serializer_class = CuestionarioSerializer 
+inidadList(viewsets.ViewSet):
+    def list(self,request):
+
+       busqueda = eval(self.request.QUERY_PARAMS.get('cuestionario', None))
+       cuestionario = busqueda["cuestionario"];
+       tipo = busqueda["tipo"];
+       pagina = self.request.QUERY_PARAMS.get('pagina', None)
+       print cuestionario
+       print tipo 
+       print pagina
+       similitudes = []
+       problemas_soluciones=ProblemaSolucion.objects.all();
+       for ps in problemas_soluciones:
+        similitudes.append(ps.id,similitud(cuestionario,ps))
+      
+       so = sorted(similitudes, key=lambda d: d[1], reverse=False)[0:10]
+       problemas_soluciones=ProblemaSolucion.objects.filter(id__in=so)
+
+       return Response(problemas_soluciones) 
+
+
+
 
 
 
