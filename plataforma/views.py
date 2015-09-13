@@ -37,7 +37,8 @@ class RolCuestionariosSave(viewsets.ViewSet):
         cuestionarios = request.data['cuestionarios']
         id_usuario = request.data['id_usuario']
         respuestas = to_python_object(cuestionarios)
-        problema_solucion={'titulo':'perfil','descripcion':'perfil','tipo': 'P','usuario': id_usuario, 'respuestas_cuestionario': respuestas,'categorias':[], 'tags':[] }
+        tipo = request.data['tipo']
+        problema_solucion={'titulo':'perfil','descripcion':'perfil','tipo': tipo,'usuario': id_usuario, 'respuestas_cuestionario': respuestas,'categorias':[], 'tags':[] }
         ps = ProblemaSolucionSerializer(data=problema_solucion)
         ps.is_valid()
         ps.save()
@@ -254,7 +255,8 @@ class CuestionarioRetrieve(generics.RetrieveAPIView):
 class CuestionarioList(generics.ListAPIView):
     queryset = Cuestionario.objects.all()
     serializer_class = CuestionarioSerializer 
-inidadList(viewsets.ViewSet):
+
+class AfinidadList(viewsets.ViewSet):
     def list(self,request):
 
        busqueda = eval(self.request.QUERY_PARAMS.get('cuestionario', None))
