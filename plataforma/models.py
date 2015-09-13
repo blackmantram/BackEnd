@@ -132,9 +132,9 @@ class Similitud(models.Model):
   
 
 class PreguntasSimilitud(models.Model):
-  pregunta_problema = models.ForeignKey(Pregunta,null=False,related_name='pregunta_problema')
-  pregunta_solucion = models.ForeignKey(Pregunta,null=False,related_name='pregunta_solucion')
-  funcion = models.ForeignKey(Pregunta,null=False)
+  pregunta_A = models.ForeignKey(Pregunta,null=False,related_name='pregunta_problema')
+  pregunta_B = models.ForeignKey(Pregunta,null=False,related_name='pregunta_solucion')
+  funcion = models.ForeignKey(Similitud,null=False)
 
   
    

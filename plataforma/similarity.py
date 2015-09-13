@@ -8,7 +8,7 @@ def to_python_object(cuestionarios):
                  valor = [ x["valor"] for x in pregunta["pregunta"]["opciones"] if int(x["id"])==int(pregunta["pregunta"]["dato"]) ][0]
                #respuesta=ProblemaSolucionOpcionRespuestaSerializer(data={'opcion_respuesta': pregunta["pregunta"]["dato"], 'problema_solucion': ps.data["id"]})
                  #s = s + pregunta["pregunta"]["id"] + ": ("+  pregunta["pregunta"]["dato"] + ","+ str(valor)+")"
-                 s = s + str(pregunta["pregunta"]["id"]) + ": ("+pregunta["pregunta"]["dato"]+ ","+ str(valor)+") , "
+                 s = s + str(pregunta["pregunta"]["id"]) + ": ("+str(pregunta["pregunta"]["dato"])+ ","+ str(valor)+") , "
               else:  
                 s = s + str(pregunta["pregunta"]["id"]) + ": "
                 w = "["

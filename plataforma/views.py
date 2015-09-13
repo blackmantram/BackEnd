@@ -34,11 +34,16 @@ class RolCuestionariosRetrieve(generics.ListAPIView):
 class RolCuestionariosSave(viewsets.ViewSet):
 
     def create(self, request):
+        print request.data
         cuestionarios = request.data['cuestionarios']
         id_usuario = request.data['id_usuario']
+       # print cuestionarios
         respuestas = to_python_object(cuestionarios)
+        print eval(respuestas)
+        print respuestas
         tipo = request.data['tipo']
         problema_solucion={'titulo':'perfil','descripcion':'perfil','tipo': tipo,'usuario': id_usuario, 'respuestas_cuestionario': respuestas,'categorias':[], 'tags':[] }
+        print problema_solucion
         ps = ProblemaSolucionSerializer(data=problema_solucion)
         ps.is_valid()
         ps.save()
