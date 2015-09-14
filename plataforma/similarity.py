@@ -40,13 +40,15 @@ def to_cuestionario(object_1, object_2):
         return respuesta    
 
 #{1: (4,1) , 2: [(3,3) , (2,2) ],3: (6,1) }
-def similitud(o1, o2):
-    funciones = {1: s2, 2: s1, 3: s2}
+def similitud(o1, o2,preguntas_similitud):
     s=0;
     n=0;
     for pregunta in o1:
-      s = s + funciones[pregunta](o1[pregunta],o2[pregunta])
-      n=n+1;
+      funcion_similitud=preguntas_similitud[pregunta]["similitud"]
+      pregunta_B = preguntas_similitud[pregunta]["pregunta_B"]
+      if pregunta_B in o2:
+        s = s + funcion_similitud(o1[pregunta],o2[pregunta_B])
+        n=n+1;
     return s/n;
 
 
@@ -55,6 +57,7 @@ def s1(x, y):
 
 def s2(x,y):
   return 1-abs(x[1]-y[1])/4
+   
 
 
 
