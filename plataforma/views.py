@@ -1,3 +1,5 @@
+# coding=utf-8 
+
 from plataforma.models import *
 from plataforma.serializers import *
 from rest_framework.decorators import detail_route, list_route
@@ -5,7 +7,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import viewsets
-import logging
+from plataforma.similarity import *
+import json
+from plataforma.models import PreguntasSimilitud
+import logging 
 
 class RolListCreate(generics.ListCreateAPIView):
     queryset = Rol.objects.all()
@@ -35,28 +40,12 @@ class RolCuestionariosSave(viewsets.ViewSet):
     def create(self, request):
         cuestionarios = request.data['cuestionarios']
         id_usuario = request.data['id_usuario']
-        problema_solucion={'titulo':'perfil','descripcion':'perfil','tipo': 'P','usuario': id_usuario, 'categorias':[], 'tags':[] }
+        respuestas = to_python_object(cuestionarios)
+        tipo = request.data['tipo']
+        problema_solucion={'titulo':'perfil','descripcion':'perfil','tipo': tipo,'usuario': id_usuario, 'respuestas_cuestionario': respuestas,'categorias':[], 'tags':[] }
         ps = ProblemaSolucionSerializer(data=problema_solucion)
         ps.is_valid()
         ps.save()
-        
-        try: 
-         for cuestionario in cuestionarios:
-          for pregunta in cuestionario['preguntas']:
-            if  pregunta["pregunta"]["tipo_pregunta"]!='M':
-              respuesta=ProblemaSolucionOpcionRespuestaSerializer(data={'opcion_respuesta': pregunta["pregunta"]["dato"], 'problema_solucion': ps.data["id"]})
-      
-            else:  
-               for opcion in pregunta["pregunta"]["opciones"]:
-                 if opcion['dato']:
-              
-                   respuesta=ProblemaSolucionOpcionRespuestaSerializer(data={'opcion_respuesta': opcion["id"], 'problema_solucion': ps.data["id"]})
-                   
-            if respuesta.is_valid():
-              respuesta.save()
-        except ValueError:
-          return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)          
-        
         return Response({'status': 'cuestionario guardado'})      
     
 
@@ -270,6 +259,59 @@ class CuestionarioRetrieve(generics.RetrieveAPIView):
 class CuestionarioList(generics.ListAPIView):
     queryset = Cuestionario.objects.all()
     serializer_class = CuestionarioSerializer 
+
+class AfinidadList(viewsets.ViewSet):
+    def list(self,request):
+       num_registros=10;
+       # z='  '       
+       # busqueda = json.loads(z)
+       busqueda = json.loads(self.request.QUERY_PARAMS.get("cuestionario", None))
+       cuestionarios_json = busqueda["cuestionarios"];
+       if(busqueda["tipo"]=="P"):
+         tipo = "S"
+       else:
+         tipo = "P"   
+
+
+       pagina = int(self.request.QUERY_PARAMS.get('pagina', None))
+       cuestionario = eval(to_python_object(cuestionarios_json))
+       similitudes = []
+       preguntas={}
+
+       
+       for preg in cuestionario:
+         p=PreguntasSimilitud.objects.get(pregunta_A=preg)
+         if p.funcion.funcion=='s1':
+           funcion=s1
+         if p.funcion.funcion=='s2':
+           funcion=s2  
+         preguntas[preg]={'pregunta_B': p.pregunta_B.id,'similitud': funcion}
+       
+       
+       problemas_soluciones=ProblemaSolucion.objects.filter(tipo=tipo);
+       for ps in problemas_soluciones:
+         similitudes.append((ps.id,similitud(cuestionario,eval(ps.respuestas_cuestionario),preguntas)))
+      
+       total = len(ProblemaSolucion.objects.filter(tipo=tipo))
+       min_registro = (pagina-1)*num_registros
+       max_registro =  pagina*num_registros
+
+
+       so = sorted(similitudes, key=lambda d: d[1], reverse=True)[min_registro:max_registro]
+       ids = [id[0] for id in so]
+        
+       
+       problemas_soluciones=ProblemaSolucion.objects.filter(id__in=ids).values()
+       ps=[]
+       for i in range(0,len(so)):
+          usuario = Usuario.objects.filter(pk=problemas_soluciones[i]["usuario_id"]).values()[0]
+          nivel_afinidad = so[i]
+          ps.append({"problema_solucion": problemas_soluciones[i], "usuario":usuario, "nivel_afinidad": nivel_afinidad[1] })
+       respuesta = {"problemas_soluciones": ps, "total":total}
+       return Response(respuesta)
+
+
+
 
 
 
