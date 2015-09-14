@@ -49,7 +49,7 @@ def similitud(o1, o2,preguntas_similitud):
       if pregunta_B in o2:
         s = s + funcion_similitud(o1[pregunta],o2[pregunta_B])
         n=n+1;
-    return s/n;
+    return 100*s/n;
 
 
 def s1(x, y):

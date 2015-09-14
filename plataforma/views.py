@@ -38,16 +38,11 @@ class RolCuestionariosRetrieve(generics.ListAPIView):
 class RolCuestionariosSave(viewsets.ViewSet):
 
     def create(self, request):
-        print request.data
         cuestionarios = request.data['cuestionarios']
         id_usuario = request.data['id_usuario']
-       # print cuestionarios
         respuestas = to_python_object(cuestionarios)
-        print eval(respuestas)
-        print respuestas
         tipo = request.data['tipo']
         problema_solucion={'titulo':'perfil','descripcion':'perfil','tipo': tipo,'usuario': id_usuario, 'respuestas_cuestionario': respuestas,'categorias':[], 'tags':[] }
-        print problema_solucion
         ps = ProblemaSolucionSerializer(data=problema_solucion)
         ps.is_valid()
         ps.save()
@@ -267,22 +262,25 @@ class CuestionarioList(generics.ListAPIView):
 
 class AfinidadList(viewsets.ViewSet):
     def list(self,request):
-       #print self.request.QUERY_PARAMS.get('cuestionario', None)
-       #busqueda = json.loads(self.request.QUERY_PARAMS.get('cuestionario', None))
-       
-       z='{"cuestionarios":[{"id":1,"preguntas":[{"id":5,"pregunta":{"id":1,"opciones":[{"id":5,"respuesta":"Software","orden":1,"valor":2,"pregunta":1,"dato":false},{"id":4,"respuesta":"Redes Sociales","orden":2,"valor":1,"pregunta":1,"dato":false}],"enunciado":"¿Qué necesitas?","imagen":null,"tipo_pregunta":"U","dato":"4"},"orden":1,"cuestionario":1,"dependencia_respuestas":[],"enable":true},{"id":6,"pregunta":{"id":2,"opciones":[{"id":3,"respuesta":"Instagram","orden":1,"valor":3,"pregunta":2,"dato":true},{"id":1,"respuesta":"Facebook","orden":2,"valor":1,"pregunta":2,"dato":true},{"id":2,"respuesta":"Twitter","orden":3,"valor":2,"pregunta":2,"dato":true}],"enunciado":"¿Qué redes sociales necesitas?","imagen":null,"tipo_pregunta":"M","dato":0},"orden":2,"cuestionario":1,"dependencia_respuestas":[],"enable":true}],"titulo":"¿Qué buscas?","descripcion":null,"imagen":"boton-que.png","fecha":null,"enable":true},{"id":2,"preguntas":[{"id":7,"pregunta":{"id":3,"opciones":[{"id":6,"respuesta":"menos de $500.000","orden":1,"valor":1,"pregunta":3,"dato":false},{"id":7,"respuesta":"Entre $500.000 a $1.0000","orden":2,"valor":2,"pregunta":3,"dato":false},{"id":8,"respuesta":"Entre $1.000.000 y $5.000.000","orden":3,"valor":3,"pregunta":3,"dato":false},{"id":9,"respuesta":"Más de $5.000.000","orden":4,"valor":4,"pregunta":3,"dato":false}],"enunciado":"¿Cuál es tu presupuesto?","imagen":null,"tipo_pregunta":"U","dato":"6"},"orden":0,"cuestionario":2,"dependencia_respuestas":[],"enable":true}],"titulo":"¿Cuál es tu presupuesto?","descripcion":null,"imagen":"boton-cuanto.png","fecha":null,"enable":true},{"id":3,"preguntas":[{"id":8,"pregunta":{"id":4,"opciones":[{"id":10,"respuesta":"Chía","orden":1,"valor":1,"pregunta":4,"dato":false},{"id":11,"respuesta":"Girardot","orden":2,"valor":2,"pregunta":4,"dato":false},{"id":12,"respuesta":"Mosquera","orden":3,"valor":3,"pregunta":4,"dato":false}],"enunciado":"¿Dónde estás Ubicado?","imagen":null,"tipo_pregunta":"L","dato":"12"},"orden":0,"cuestionario":3,"dependencia_respuestas":[],"enable":true}],"titulo":"¿Dónde te encuentras?","descripcion":null,"imagen":"boton-donde.png","fecha":null,"enable":true}],"tipo":"P"}'       
-       busqueda = json.loads(z)
+       num_registros=10;
+       # z='  '       
+       # busqueda = json.loads(z)
+       busqueda = json.loads(self.request.QUERY_PARAMS.get("cuestionario", None))
        cuestionarios_json = busqueda["cuestionarios"];
-       tipo = busqueda["tipo"];
-       #pagina = self.request.QUERY_PARAMS.get('pagina', None)
+       if(busqueda["tipo"]=="P"):
+         tipo = "S"
+       else:
+         tipo = "P"   
+
+
+       pagina = int(self.request.QUERY_PARAMS.get('pagina', None))
        cuestionario = eval(to_python_object(cuestionarios_json))
-       print cuestionario
        similitudes = []
        preguntas={}
+
        
        for preg in cuestionario:
          p=PreguntasSimilitud.objects.get(pregunta_A=preg)
-         print p.funcion.funcion
          if p.funcion.funcion=='s1':
            funcion=s1
          if p.funcion.funcion=='s2':
@@ -290,24 +288,27 @@ class AfinidadList(viewsets.ViewSet):
          preguntas[preg]={'pregunta_B': p.pregunta_B.id,'similitud': funcion}
        
        
-       problemas_soluciones=ProblemaSolucion.objects.all();
+       problemas_soluciones=ProblemaSolucion.objects.filter(tipo=tipo);
        for ps in problemas_soluciones:
          similitudes.append((ps.id,similitud(cuestionario,eval(ps.respuestas_cuestionario),preguntas)))
       
-       so = sorted(similitudes, key=lambda d: d[1], reverse=True)[0:10]
+       total = len(ProblemaSolucion.objects.filter(tipo=tipo))
+       min_registro = (pagina-1)*num_registros
+       max_registro =  pagina*num_registros
+
+
+       so = sorted(similitudes, key=lambda d: d[1], reverse=True)[min_registro:max_registro]
        ids = [id[0] for id in so]
         
-       total = len(ProblemaSolucion.objects.all())
+       
        problemas_soluciones=ProblemaSolucion.objects.filter(id__in=ids).values()
        ps=[]
-       for i in range(0,9):
-          #usuario = Usuario.objects.get(pk=problemas_soluciones[i]["usuario_id"]).values()
-          usuario = "xxx"
+       for i in range(0,len(so)):
+          usuario = Usuario.objects.filter(pk=problemas_soluciones[i]["usuario_id"]).values()[0]
           nivel_afinidad = so[i]
           ps.append({"problema_solucion": problemas_soluciones[i], "usuario":usuario, "nivel_afinidad": nivel_afinidad[1] })
        respuesta = {"problemas_soluciones": ps, "total":total}
        return Response(respuesta)
-       #return Response(problemas_soluciones) 
 
 
 
