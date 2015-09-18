@@ -330,10 +330,10 @@ class AfinidadList(viewsets.ViewSet):
       ps = problemas_soluciones=ProblemaSolucion.objects.get(pk=id_ps);
       print cuestionario 
       print preguntas
-      respuesta=similitud_detalle(cuestionario,eval(ps.respuestas_cuestionario),preguntas)
+      respuesta={"respuesta":similitud_detalle(cuestionario,eval(ps.respuestas_cuestionario),preguntas)}
       
       return Response(respuesta)
-
+      
 
 
 
