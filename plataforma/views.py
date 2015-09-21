@@ -283,10 +283,7 @@ class AfinidadList(viewsets.ViewSet):
        
        for preg in cuestionario:
          p=PreguntasSimilitud.objects.get(pregunta_A=preg)
-         if p.funcion.funcion=='s1':
-           funcion=s1
-         if p.funcion.funcion=='s2':
-           funcion=s2  
+         funcion =  eval(p.funcion.funcion) 
          preguntas[preg]={'pregunta_B': p.pregunta_B.id,'similitud': funcion}
        
        
