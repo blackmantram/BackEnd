@@ -6,19 +6,17 @@ def to_python_object(cuestionarios):
               if  pregunta["pregunta"]["tipo_pregunta"]!='M':
                 if pregunta["pregunta"]["dato"]!=0:
                  valor = [ x["valor"] for x in pregunta["pregunta"]["opciones"] if int(x["id"])==int(pregunta["pregunta"]["dato"]) ][0]
-               #respuesta=ProblemaSolucionOpcionRespuestaSerializer(data={'opcion_respuesta': pregunta["pregunta"]["dato"], 'problema_solucion': ps.data["id"]})
-                 #s = s + pregunta["pregunta"]["id"] + ": ("+  pregunta["pregunta"]["dato"] + ","+ str(valor)+")"
                  s = s + str(pregunta["pregunta"]["id"]) + ": ("+str(pregunta["pregunta"]["dato"])+ ","+ str(valor)+") , "
               else:  
-                s = s + str(pregunta["pregunta"]["id"]) + ": "
                 w = "["
                 for opcion in pregunta["pregunta"]["opciones"]:
                   if opcion['dato']:
                     w=w+ "(" +  str(opcion["id"]) + "," + str(opcion["valor"])+") , "
-                
-                w=w[:len(w)-2]
+                if len(w)==1:
+                 break
                 w=w+"],"
 
+                s = s + str(pregunta["pregunta"]["id"]) + ": "
                 s=s + w
         s=s[:len(s)-1]
         s = s+"}"
@@ -56,7 +54,12 @@ def s1(x, y):
 
 def s2(x,y):
   return (1-abs(x[1]-y[1])/4.0)*100
-   
+
+def s3(x,y):
+  return 100*(x[1]==y[1])
+
+def s4(x,y):
+  return (1-abs(x[1]-y[1])/4.0)*100   
 
 def similitud_detalle(o1, o2,preguntas_similitud):
     s=0;
