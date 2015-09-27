@@ -57,7 +57,7 @@ class RolCuestionariosSave(viewsets.ViewSet):
                 w=w+"],"
 
                 s=s + w
-        #            #respuesta=ProblemaSolucionOpcionRespuestaSerializer(data={'opcion_respuesta': opcion["id"], 'problema_solucion': ps.data["id"]})
+        #       #respuesta=ProblemaSolucionOpcionRespuestaSerializer(data={'opcion_respuesta': opcion["id"], 'problema_solucion': ps.data["id"]})
                    
         #     #if respuesta.is_valid():
         #      # respuesta.save()
