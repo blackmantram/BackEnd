@@ -56,7 +56,7 @@ class ProblemaSolucion(models.Model):
     categorias = models.ManyToManyField(Categoria)
     tags = models.ManyToManyField(Tag)
     usuario = models.ForeignKey(Usuario,null=False)
-
+    respuestas_cuestionario = models.CharField(max_length=255, null=True)
     # it determines tag matching with other problem_solution   
     def tags_match_with(self, otro_problema_solucion):
       return [ (tag, 1) if tag in  otro_problema_solucion.tags.all() else (tag,0) for tag in self.tags.all() ]
@@ -71,7 +71,7 @@ class RespuestaProblemaSolucion(models.Model):
     tipo = models.CharField(max_length=1,choices=(('P','PROBLEMA'),('S','SOLUCION')),default='P',
                                                   null=False, blank=False)
     usuario = models.ForeignKey(Usuario,null=False)
-    respuestas_cuestionario = models.CharField(max_length=255, null=True)
+    
 
    
 class Pregunta(models.Model):
