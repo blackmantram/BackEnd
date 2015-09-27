@@ -65,6 +65,7 @@ class RolCuestionariosSave(viewsets.ViewSet):
         #   return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)          
         s=s[:len(s)-1]
         s = s+"}"
+        print s
         problema_solucion={'titulo':'perfil','descripcion':'perfil','tipo': 'P','usuario': id_usuario, 'respuestas_cuestionario': s,'categorias':[], 'tags':[] }
         ps = ProblemaSolucionSerializer(data=problema_solucion)
         ps.is_valid()
