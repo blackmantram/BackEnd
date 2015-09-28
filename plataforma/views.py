@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import viewsets
 from plataforma.similarity import *
+from plataforma.emails import *
 import json
 from plataforma.models import PreguntasSimilitud
 import logging 
@@ -53,6 +54,14 @@ class RolCuestionariosSave(viewsets.ViewSet):
 class UsuarioListCreate(generics.ListCreateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
+
+    def create(self, request):
+      resultado = super(UsuarioListCreate, self).create(request)
+      correo =request.data['correo']
+      usuario = request.data['nombres']+' '+request.data['apellido1']+' '+request.data['apellido2'] 
+      enviar_correo(correo, usuario.upper())
+      print resultado
+      return resultado
     
     
 class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
