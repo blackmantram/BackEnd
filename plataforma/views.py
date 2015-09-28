@@ -1,6 +1,7 @@
 # coding=utf-8 
 
 from plataforma.models import *
+from rest_framework import status
 from plataforma.serializers import *
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
@@ -56,12 +57,20 @@ class UsuarioListCreate(generics.ListCreateAPIView):
     serializer_class = UsuarioSerializer
 
     def create(self, request):
-      resultado = super(UsuarioListCreate, self).create(request)
       correo =request.data['correo']
-      usuario = request.data['nombres']+' '+request.data['apellido1']+' '+request.data['apellido2'] 
-      enviar_correo(correo, usuario.upper())
-      print resultado
-      return resultado
+      nombre = request.data['nombres']+' '+request.data['apellido1']+' '+request.data['apellido2'] 
+      usuario = UsuarioSerializer(data=request.data)
+      if usuario.is_valid(): 
+       if usuario.save():
+        enviar_correo(correo, {"usuario":nombre.upper()})
+       else:
+         return Response(usuario.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+      else:
+       return Response(usuario.errors,
+                            status=status.HTTP_400_BAD_REQUEST)  
+
+      return Response(usuario.data)
     
     
 class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
