@@ -21,7 +21,7 @@ class Usuario(models.Model):
   apellido1 = models.CharField(max_length=200)
   apellido2 = models.CharField(max_length=200,)
   numero_documento = models.CharField(max_length=200,blank=True, null=True, default=None)
-  correo = models.CharField(max_length=200, blank=True, null=True, default=None)
+  correo = models.CharField(max_length=200, blank=True, null=True, default=None,unique=True)
   nombre_institucion = models.CharField(max_length=200, blank=True,null=True, default=None)
   telefono_institucion = models.CharField(max_length=200, blank=True, null=True, default=None)
   ubicacion_institucion = models.CharField(max_length=200, blank=True,null=True, default=None)
