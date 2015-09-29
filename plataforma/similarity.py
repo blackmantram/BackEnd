@@ -1,3 +1,4 @@
+from plataforma.models import *
 def to_python_object(cuestionarios):
         s = "{"  
         for cuestionario in cuestionarios:
@@ -22,6 +23,27 @@ def to_python_object(cuestionarios):
         s=s[:len(s)-1]
         s = s+"}"
         return s
+
+def to_cuestionario(object_1, object_2):
+        respuesta = {}
+        for i in object_1:
+          pregunta = Pregunta.objects.get(pk=i)
+          if isinstance(object_1[i],list):
+             s=""
+             for j in object_1[i]:
+               respuesta_1 = OpcionesDeRespuesta.objects.get(pk=j[0])
+               s=s+respuesta_1+" , "
+          else:
+             respuesta_1 = OpcionesDeRespuesta.objects.get(pk=object_1[i][0])   
+
+        respuesta[pregunta]=respuesta_1
+        return respuesta        
+
+
+
+
+
+
    
 
 
