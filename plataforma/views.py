@@ -284,9 +284,9 @@ class AfinidadList(viewsets.ViewSet):
        busqueda = request.data["cuestionario"]
        cuestionarios_json = busqueda["cuestionarios"];
        if(busqueda["tipo"]=="P"):
-         tipo = "S"
+         tipo = 'S'
        else:
-         tipo = "P"   
+         tipo = 'P'   
 
 
        pagina = int(request.data["pagina"])
