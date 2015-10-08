@@ -14,7 +14,7 @@ def enviar_correo(destinatario,contenido):
   email.attach_alternative(content, "text/html")   
   email.mixed_subtype = 'related'       
  
-  for f in ['Email-Lab-Virt-Confirmacion_r1_c1.png', 'Email-Lab-Virt-Confirmacion_r2_c1.png','Email-Lab-Virt-Confirmacion_r3_c1.png','spacer.gif']:
+  for f in ['Email-Lab-Virt-Confirmacion_r1_c1.png', 'Email-Lab-Virt-Confirmacion_r3_c1.png','spacer.gif']:
    fp = open(os.path.join(settings.BASE_DIR, 'plataforma/media/'+f), 'rb')  
    msg_img = MIMEImage(fp.read())
    fp.close()
