@@ -322,9 +322,9 @@ class AfinidadList(viewsets.ViewSet):
        return Response(respuesta)
 
     def detail(self,request):
-      busqueda = json.loads(self.request.QUERY_PARAMS.get("cuestionario", None))
+      busqueda = request.data["cuestionario"]
       cuestionarios_json = busqueda["cuestionarios"];
-      id_ps = int(self.request.QUERY_PARAMS.get('id_ps', None))
+      id_ps = int(request.data['id_ps'])
       cuestionario = eval(to_python_object(cuestionarios_json))
       similitudes = []
       preguntas={}
