@@ -83,8 +83,9 @@ def s2(x,y):
 def s3(x,y):
   return 100*(x[1]==y[1])
 
+# Distancia Geodesica
 def s4(x,y):
-  return (1-abs(x[1]-y[1])/4.0)*100   
+  return (1-abs(x[1]-y[1])/8.0)*100   
 
 def similitud_detalle(o1, o2,preguntas_similitud):
     s=0;
