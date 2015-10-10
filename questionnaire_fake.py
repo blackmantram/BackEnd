@@ -23,7 +23,12 @@ for ps in problemas:
          if p.tipo_pregunta!='M': 
 
             r=random.choice(respuestas)
-            cuestionario[p.id]=(r.id, r.valor)
+            print r.valor
+            # if not isinstance(r.valor,tuple):
+
+            #   cuestionario[p.id]=(int(r.id), (float(r.valor[0]),float(r.valor[1])))
+            # else:    
+            cuestionario[p.id]=(int(r.id), eval(r.valor))
             respuestas_todas.append(r)
          else:
             resp = []
@@ -34,7 +39,7 @@ for ps in problemas:
                 resp.append(w)
                 respuestas_todas.append(w)
                 z.remove(w)
-            valores=[(k.id,k.valor) for k in resp]
+            valores=[(int(k.id), int(k.valor)) for k in resp]
             cuestionario[p.id]=valores
           
   print ps.id
