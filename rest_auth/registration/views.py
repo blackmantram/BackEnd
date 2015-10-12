@@ -60,6 +60,17 @@ class RegisterView(APIView, SignupView):
         else:
             return self.get_response_with_errors()
 
+    def registrar(self, datos):
+        self.initial = {}
+        self.request.POST = datos
+        form_class = self.get_form_class()
+        self.form = self.get_form(form_class)
+        if self.form.is_valid():
+            self.form_valid(self.form)
+            return self.get_response()
+        else:
+            return self.get_response_with_errors()
+
     def get_response(self):
         # serializer = self.user_serializer_class(instance=self.user)
         serializer = self.serializer_class(instance=self.token)

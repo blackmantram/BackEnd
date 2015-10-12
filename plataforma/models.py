@@ -33,7 +33,7 @@ class Usuario(models.Model):
   rol = models.ForeignKey(Rol,blank=False)
   redes = models.ManyToManyField(RedSocial, through='UsuarioRedes')
   tags = tags = models.ManyToManyField(Tag)
-  user = models.ForeignKey(User,blank=False,null=False)
+  user = models.ForeignKey(User,null=True)
 
   
 
