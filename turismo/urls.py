@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from rest_framework.urlpatterns import format_suffix_patterns
 from plataforma import views
+from django.views.generic import RedirectView
 # from landing_page import views
 
 urlpatterns = patterns('',
@@ -32,6 +33,11 @@ urlpatterns = patterns('',
     url(r'^afinidad/detalle', views.AfinidadList.as_view({'post':'detail'})), 
     url(r'^afinidad', views.AfinidadList.as_view({'post':'list'})), 
     url(r'^docs/', include('rest_framework_swagger.urls')), # url documentation
+
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    url(r'^account/', include('allauth.urls')),
+    url(r'^accounts/profile/$', RedirectView.as_view(url='/'), name='profile-redirect'),
     
 
    
