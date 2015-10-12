@@ -80,12 +80,13 @@ class UsuarioListCreate(generics.ListCreateAPIView):
         if usuario.is_valid(): 
          correo =correo
          nombre = request.data['nombres']+' '+request.data['apellido1']+' '+request.data['apellido2'] 
-         u=user.save()
-         u.set_password(password);
-         u.save()
-         token, created = Token.objects.get_or_create(user=u)
-         usuario.user = u
-         usuario.save()
+         user=user.save()
+         user.set_password(password);
+         user.save()
+         token, created = Token.objects.get_or_create(user=user)
+         usuario=usuario.save()
+         usuario.user = user
+         usuario.save()         
          enviar_correo(correo, {"usuario":nombre.upper()})
         else:
          return Response(usuario.errors,
@@ -102,6 +103,9 @@ class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer  
+    def get_object(self):
+        return Usuario.objects.get(user_id=self.request.user.id)
+
 
 class RedSocialListCreate(generics.ListCreateAPIView):
     queryset = RedSocial.objects.all()

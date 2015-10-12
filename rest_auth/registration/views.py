@@ -12,6 +12,7 @@ from allauth.account import app_settings
 from rest_auth.app_settings import TokenSerializer
 from rest_auth.registration.serializers import SocialLoginSerializer
 from rest_auth.views import LoginView
+from django.contrib.auth.models import User
 
 
 class RegisterView(APIView, SignupView):
@@ -26,7 +27,7 @@ class RegisterView(APIView, SignupView):
     """
 
     permission_classes = (AllowAny,)
-    allowed_methods = ('POST', 'OPTIONS', 'HEAD')
+    allowed_methods = ('POST', 'OPTIONS', 'HEAD','GET')
     token_model = Token
     serializer_class = TokenSerializer
 
@@ -60,17 +61,7 @@ class RegisterView(APIView, SignupView):
         else:
             return self.get_response_with_errors()
 
-    def registrar(self, datos):
-        self.initial = {}
-        self.request.POST = datos
-        form_class = self.get_form_class()
-        self.form = self.get_form(form_class)
-        if self.form.is_valid():
-            self.form_valid(self.form)
-            return self.get_response()
-        else:
-            return self.get_response_with_errors()
-
+   
     def get_response(self):
         # serializer = self.user_serializer_class(instance=self.user)
         serializer = self.serializer_class(instance=self.token)
@@ -86,7 +77,15 @@ class VerifyEmailView(APIView, ConfirmEmailView):
     allowed_methods = ('POST', 'OPTIONS', 'HEAD')
 
     def get(self, *args, **kwargs):
-        return Response({}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        email = self.request.QUERY_PARAMS.get('email', None)
+
+        if email is not None:
+            if User.objects.filter(email=email):
+              return Response({"error: el correo ya existe en el sistema"}, status=status.HTTP_400_BAD_REQUEST) 
+            else:
+              return Response({"Mensaje: ok, correo disponible"}, status=status.HTTP_200_OK)
+
+        return Response({"error: Enviar la variable 'email' en la url"}, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request, *args, **kwargs):
         self.kwargs['key'] = self.request.data.get('key', '')
