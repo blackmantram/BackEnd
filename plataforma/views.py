@@ -1,6 +1,7 @@
 # coding=utf-8 
 
 from plataforma.models import *
+from rest_framework import status
 from plataforma.serializers import *
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
@@ -8,6 +9,7 @@ from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import viewsets
 from plataforma.similarity import *
+from plataforma.emails import *
 import json
 from plataforma.models import PreguntasSimilitud
 import logging 
@@ -53,6 +55,22 @@ class RolCuestionariosSave(viewsets.ViewSet):
 class UsuarioListCreate(generics.ListCreateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
+
+    def create(self, request):
+      correo =request.data['correo']
+      nombre = request.data['nombres']+' '+request.data['apellido1']+' '+request.data['apellido2'] 
+      usuario = UsuarioSerializer(data=request.data)
+      if usuario.is_valid(): 
+       if usuario.save():
+        enviar_correo(correo, {"usuario":nombre.upper()})
+       else:
+         return Response(usuario.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+      else:
+       return Response(usuario.errors,
+                            status=status.HTTP_400_BAD_REQUEST)  
+
+      return Response(usuario.data)
     
     
 class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -263,19 +281,17 @@ class CuestionarioList(generics.ListAPIView):
 class AfinidadList(viewsets.ViewSet):
     def list(self,request):
        num_registros=10;
-       # z='  '       
-       # busqueda = json.loads(z)
-
-       busqueda = json.loads(self.request.QUERY_PARAMS.get("cuestionario", None))
+      # print request.stream.body
+       busqueda = request.data["cuestionario"]
        cuestionarios_json = busqueda["cuestionarios"];
        if(busqueda["tipo"]=="P"):
-         tipo = "S"
+         tipo = 'S'
        else:
-         tipo = "P"   
+         tipo = 'P'   
 
 
-       pagina = int(self.request.QUERY_PARAMS.get('pagina', None))
-       print to_python_object(cuestionarios_json)
+       pagina = int(request.data["pagina"])
+       dependencias=get_dependencias(cuestionarios_json)
        cuestionario = eval(to_python_object(cuestionarios_json))
        similitudes = []
        preguntas={}
@@ -289,30 +305,27 @@ class AfinidadList(viewsets.ViewSet):
        
        problemas_soluciones=ProblemaSolucion.objects.filter(tipo=tipo);
        for ps in problemas_soluciones:
-         similitudes.append((ps.id,similitud(cuestionario,eval(ps.respuestas_cuestionario),preguntas)))
+         similitudes.append((ps.id,similitud(cuestionario,eval(ps.respuestas_cuestionario),preguntas,dependencias)))
       
        total = len(ProblemaSolucion.objects.filter(tipo=tipo))
        min_registro = (pagina-1)*num_registros
        max_registro =  pagina*num_registros
-
-
        so = sorted(similitudes, key=lambda d: d[1], reverse=True)[min_registro:max_registro]
        ids = [id[0] for id in so]
         
-       
-       problemas_soluciones=ProblemaSolucion.objects.filter(id__in=ids).values()
        ps=[]
        for i in range(0,len(so)):
-          usuario = Usuario.objects.filter(pk=problemas_soluciones[i]["usuario_id"]).values()[0]
+          problema_solucion=ProblemaSolucion.objects.filter(id=ids[i]).values()[0]
+          usuario = Usuario.objects.filter(pk=problema_solucion["usuario_id"]).values()[0]
           nivel_afinidad = so[i]
-          ps.append({"problema_solucion": problemas_soluciones[i], "usuario":usuario, "nivel_afinidad": nivel_afinidad[1] })
+          ps.append({"problema_solucion": problema_solucion, "usuario":usuario, "nivel_afinidad": nivel_afinidad[1] })
        respuesta = {"problemas_soluciones": ps, "total":total}
        return Response(respuesta)
 
     def detail(self,request):
-      busqueda = json.loads(self.request.QUERY_PARAMS.get("cuestionario", None))
+      busqueda = request.data["cuestionario"]
       cuestionarios_json = busqueda["cuestionarios"];
-      id_ps = int(self.request.QUERY_PARAMS.get('id_ps', None))
+      id_ps = int(request.data['id_ps'])
       cuestionario = eval(to_python_object(cuestionarios_json))
       similitudes = []
       preguntas={}

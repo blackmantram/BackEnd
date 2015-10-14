@@ -21,7 +21,7 @@ class Usuario(models.Model):
   apellido1 = models.CharField(max_length=200)
   apellido2 = models.CharField(max_length=200,)
   numero_documento = models.CharField(max_length=200,blank=True, null=True, default=None)
-  correo = models.CharField(max_length=200, blank=True, null=True, default=None)
+  correo = models.CharField(max_length=200, blank=True, null=True, default=None,unique=True)
   nombre_institucion = models.CharField(max_length=200, blank=True,null=True, default=None)
   telefono_institucion = models.CharField(max_length=200, blank=True, null=True, default=None)
   ubicacion_institucion = models.CharField(max_length=200, blank=True,null=True, default=None)
@@ -105,7 +105,7 @@ class CuestionarioRol(models.Model):
 class OpcionesDeRespuesta(models.Model):
   respuesta = models.CharField(max_length=200, null=True)
   orden = models.IntegerField()
-  valor = models.IntegerField()
+  valor = models.CharField(max_length=200, null=True)
   pregunta = models.ForeignKey(Pregunta, null=False, related_name='opciones')
   class Meta:
     ordering = ['orden']
