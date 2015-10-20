@@ -112,8 +112,10 @@ class PasswordResetSerializer(serializers.Serializer):
     def validate_email(self, value):
         # Create PasswordResetForm with the serializer
         self.reset_form = self.password_reset_form_class(data=self.initial_data)
+        print self.initial_data
         if not self.reset_form.is_valid():
             raise serializers.ValidationError('Error')
+
         return value
 
     def save(self):
@@ -122,6 +124,7 @@ class PasswordResetSerializer(serializers.Serializer):
         opts = {
             'use_https': request.is_secure(),
             'from_email': getattr(settings, 'DEFAULT_FROM_EMAIL'),
+            'email_template_name': 'correo_reset_password.html',
             'request': request,
         }
         self.reset_form.save(**opts)
