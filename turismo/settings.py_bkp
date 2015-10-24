@@ -75,6 +75,11 @@ DATABASES = {
     }
 }
 
+SWAGGER_SETTINGS = {
+
+    'base_path':'/home2/camjoha/virtualenvs/myenv/lib/python2.7/site-packages/rest_framework_swagger/',
+  }
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 

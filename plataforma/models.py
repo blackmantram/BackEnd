@@ -107,7 +107,7 @@ class CuestionarioRol(models.Model):
 class OpcionesDeRespuesta(models.Model):
   respuesta = models.CharField(max_length=200, null=True)
   orden = models.IntegerField()
-  valor = models.IntegerField()
+  valor = models.CharField(max_length=200, null=True)
   pregunta = models.ForeignKey(Pregunta, null=False, related_name='opciones')
   class Meta:
     ordering = ['orden']

@@ -1,4 +1,5 @@
 from plataforma.models import *
+from math import *
 def to_python_object(cuestionarios):
         s = "{"  
         for cuestionario in cuestionarios:
@@ -78,13 +79,22 @@ def s1(x, y):
   return 100*len(list(set({k[1] for k in x})&set({k[1] for k in y})))/len(x)
 
 def s2(x,y):
-  return (1-abs(x[1]-y[1])/4.0)*100
+  return (1-abs(int(x[1])-int(y[1]))/4.0)*100
 
 def s3(x,y):
   return 100*(x[1]==y[1])
 
-def s4(x,y):
-  return (1-abs(x[1]-y[1])/4.0)*100   
+# Distancia Geodesica
+def s4(a,b):
+  a=a[1]
+  b=b[1]
+  R=6372.795477598
+  distancia_maxima=400;
+  ar=(float(a[0])*pi/180,float(a[1])*pi/180) # se convierte a radianes
+  br=(float(b[0])*pi/180,float(b[1])*pi/180)
+  distancia = R*acos(sin(ar[0])*sin(br[0])+cos(ar[0])*cos(br[0])*cos(ar[1]-br[1]))
+
+  return (1-distancia/distancia_maxima)*100   
 
 def similitud_detalle(o1, o2,preguntas_similitud):
     s=0;

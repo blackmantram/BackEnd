@@ -313,6 +313,7 @@ class CuestionarioList(generics.ListAPIView):
 class AfinidadList(viewsets.ViewSet):
     def list(self,request):
        num_registros=10;
+      # print request.stream.body
        busqueda = request.data["cuestionario"]
        cuestionarios_json = busqueda["cuestionarios"];
        if(busqueda["tipo"]=="P"):
