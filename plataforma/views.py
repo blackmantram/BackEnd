@@ -104,10 +104,7 @@ class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer  
     permission_classes = (IsAuthenticated,)
-<<<<<<< HEAD
-=======
 
->>>>>>> dbe6c2affd3e032190a27d501e4a5c99127f992a
     def get_object(self):
         return Usuario.objects.get(user_id=self.request.user.id)
 
