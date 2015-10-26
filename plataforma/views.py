@@ -8,6 +8,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.authtoken.models import Token
+
 from plataforma.similarity import *
 from plataforma.emails import *
 import json
@@ -55,28 +58,57 @@ class RolCuestionariosSave(viewsets.ViewSet):
 class UsuarioListCreate(generics.ListCreateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
+   # permission_classes = (IsAuthenticated,)
 
     def create(self, request):
-      correo =request.data['correo']
-      nombre = request.data['nombres']+' '+request.data['apellido1']+' '+request.data['apellido2'] 
-      usuario = UsuarioSerializer(data=request.data)
-      if usuario.is_valid(): 
-       if usuario.save():
-        enviar_correo(correo, {"usuario":nombre.upper()})
-       else:
-         return Response(usuario.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+      if 'password' not in request.data:
+        password=''
+      else: 
+        password=request.data['password']    
+      if 'correo' not in request.data:
+        correo=''
       else:
-       return Response(usuario.errors,
-                            status=status.HTTP_400_BAD_REQUEST)  
+        correo=request.data['correo']   
+      if password=='' or correo=='':
+         return Response({'error':'los campos correo y password requeridos'},
+                              status=status.HTTP_400_BAD_REQUEST)
+             
+        
+      user = UserSerializer(data={'username':correo,'email':correo,'password': password})
+      usuario = UsuarioSerializer(data=request.data)
+      if user.is_valid():
+        if usuario.is_valid(): 
+         correo =correo
+         nombre = request.data['nombres']+' '+request.data['apellido1']+' '+request.data['apellido2'] 
+         user=user.save()
+         user.set_password(password);
+         user.save()
+         token, created = Token.objects.get_or_create(user=user)
+         usuario=usuario.save()
+         usuario.user = user
+         usuario.save()         
+         enviar_correo(correo, {"usuario":nombre.upper()})
+        else:
+         return Response(usuario.errors,
+                              status=status.HTTP_400_BAD_REQUEST)  
+      else:
+        return Response(user.errors,
+                              status=status.HTTP_400_BAD_REQUEST)
 
-      return Response(usuario.data)
+      return Response({'key': token.key}, status=status.HTTP_201_CREATED)
+
     
     
 class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer  
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        return Usuario.objects.get(user_id=self.request.user.id)
+
+
 
 class RedSocialListCreate(generics.ListCreateAPIView):
     queryset = RedSocial.objects.all()
@@ -341,8 +373,6 @@ class AfinidadList(viewsets.ViewSet):
       
       return Response(respuesta)
       
-
-
 
 
 

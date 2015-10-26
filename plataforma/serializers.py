@@ -15,6 +15,14 @@ from plataforma.models import Pregunta
 from plataforma.models import OpcionesDeRespuesta
 from plataforma.models import CuestionarioRol
 from plataforma.models import ProblemaSolucionOpcionRespuesta
+from django.contrib.auth.models import User
+
+
+class UserSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ('username', 'email', 'password')
+ 
 
 class RedSocialSerializer(serializers.ModelSerializer):  
         class Meta:

@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from rest_framework.urlpatterns import format_suffix_patterns
 from plataforma import views
+from django.views.generic import RedirectView
 # from landing_page import views
 
 urlpatterns = patterns('',
@@ -18,8 +19,8 @@ urlpatterns = patterns('',
     url(r'^sugerencias/$', views.Sugerencias.as_view({'get':'list_sugerencias'})), 
     url(r'^sugerencias_tags/$', views.Sugerencias.as_view({'get':'list_sugerencias_tags'})), 
     url(r'^usuarios/(?P<pk>[0-9]+)/redes', views.UsuarioRedesList.as_view()),  
-    url(r'^usuarios/(?P<pk>[0-9]+)', views.UsuarioDetail.as_view()),
     url(r'^usuarios', views.UsuarioListCreate.as_view()), 
+    url(r'^usuario', views.UsuarioDetail.as_view()),
     url(r'^redes/(?P<pk>[0-9]+)', views.RedSocialDetail.as_view()),
     url(r'^redes', views.RedSocialListCreate.as_view()),
     url(r'^categorias/(?P<pk>[0-9]+)', views.CategoriaDetail.as_view()),
@@ -32,6 +33,11 @@ urlpatterns = patterns('',
     url(r'^afinidad/detalle', views.AfinidadList.as_view({'post':'detail'})), 
     url(r'^afinidad', views.AfinidadList.as_view({'post':'list'})), 
     url(r'^docs/', include('rest_framework_swagger.urls')), # url documentation
+
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    url(r'^account/', include('allauth.urls')),
+    url(r'^accounts/profile/$', RedirectView.as_view(url='/'), name='profile-redirect'),
     
 
    
