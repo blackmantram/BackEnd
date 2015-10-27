@@ -17,6 +17,24 @@ import json
 from plataforma.models import PreguntasSimilitud
 import logging 
 
+class BusquedaCreateRetrieve(viewsets.ViewSet):
+    def get(self,request,pk):
+      ps = ProblemaSolucion.objects.get(pk=pk)
+      cs = Cuestionario.objects.all().filter(rol=ps.usuario.rol,cuestionariorol__tipo=ps.tipo)
+      c = CuestionarioSerializer(cs,many=True)
+      respuestas=ps.respuestas_cuestionario
+      cuestionario = python_object_to_cuestionario(respuestas,c.data)
+      ps_serial = ProblemaSolucionSerializer(ps)
+      respuesta = ps_serial.data
+      respuesta["cuestionario"]= cuestionario
+      return Response(respuesta)
+    def create(self,request):
+
+      return Response("ok")
+      
+
+
+
 class RolListCreate(generics.ListCreateAPIView):
     queryset = Rol.objects.all()
     serializer_class = RolSerializer
@@ -178,7 +196,13 @@ class ProblemaSolucionListCreate(generics.ListCreateAPIView):
           
 
         return queryset.filter()
-    
+    def post(self, request, *args, **kwargs):
+
+       if "cuestionario" in request.data:
+         request.data["respuestas_cuestionario"]=eval(to_python_object(request.data["cuestionario"]))
+         #return Response("ok")
+       return super(ProblemaSolucionListCreate, self).post(request, *args, **kwargs)
+     
         
 
 class Sugerencias(viewsets.ViewSet):
@@ -313,7 +337,7 @@ class CuestionarioList(generics.ListAPIView):
 class AfinidadList(viewsets.ViewSet):
     def list(self,request):
        num_registros=10;
-      # print request.stream.body
+       print request.stream.body
        busqueda = request.data["cuestionario"]
        cuestionarios_json = busqueda["cuestionarios"];
        if(busqueda["tipo"]=="P"):

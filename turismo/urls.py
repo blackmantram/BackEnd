@@ -15,9 +15,13 @@ urlpatterns = patterns('',
     url(r'^usuariosredes', views.UsuarioRedesListCreate.as_view()),
     url(r'^usuarios/(?P<usuario>[0-9]+)/problemas_soluciones/(?P<pk>[0-9]+)', views.ProblemaSolucionDetail.as_view()),
     url(r'^usuarios/(?P<usuario>[0-9]+)/problemas_soluciones', views.ProblemaSolucionListCreate.as_view()), 
+
     url(r'^buscar/$', views.ProblemaSolucionListCreate.as_view()), 
     url(r'^sugerencias/$', views.Sugerencias.as_view({'get':'list_sugerencias'})), 
     url(r'^sugerencias_tags/$', views.Sugerencias.as_view({'get':'list_sugerencias_tags'})), 
+    url(r'^usuario/(?P<usuario>[0-9]+)/busquedas', views.ProblemaSolucionListCreate.as_view()), 
+    url(r'^usuario/(?P<usuario>[0-9]+)/busquedas', views.BusquedaCreateRetrieve.as_view({'post':'create'})), 
+    
     url(r'^usuarios/(?P<pk>[0-9]+)/redes', views.UsuarioRedesList.as_view()),  
     url(r'^usuarios', views.UsuarioListCreate.as_view()), 
     url(r'^usuario', views.UsuarioDetail.as_view()),
@@ -32,7 +36,7 @@ urlpatterns = patterns('',
     url(r'^cuestionarios', views.CuestionarioList.as_view()), 
     url(r'^afinidad/detalle', views.AfinidadList.as_view({'post':'detail'})), 
     url(r'^afinidad', views.AfinidadList.as_view({'post':'list'})), 
-    url(r'^busqueda/(?P<pk>[0-9]+)', views.BusquedaRetrieve.as_view()),
+    url(r'^busqueda/(?P<pk>[0-9]+)', views.BusquedaCreateRetrieve.as_view({'get':'get'})),
     url(r'^docs/', include('rest_framework_swagger.urls')), # url documentation
 
     url(r'^rest-auth/', include('rest_auth.urls')),
