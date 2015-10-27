@@ -35,6 +35,32 @@ def get_dependencias(cuestionarios):
 
   return dependencias      
 
+def python_object_to_cuestionario(respuestas,cuestionarios):
+   respuestas=eval(respuestas)
+   for cuestionario in cuestionarios:
+          for pregunta in cuestionario['preguntas']:
+              pregunta_id = pregunta["pregunta"]["id"]
+              if  pregunta["pregunta"]["tipo_pregunta"]!='M':
+                pregunta_id = pregunta["pregunta"]["id"]
+                if pregunta_id in respuestas:
+                   pregunta["pregunta"]["dato"]=respuestas[pregunta_id][0]
+                else:
+                  pregunta["pregunta"]["dato"]=0
+              else:
+                print pregunta_id
+
+                if pregunta_id in respuestas: 
+                  # print pregunta 
+                  # print pregunta["pregunta"]["tipo_pregunta"]
+                  # break
+                  opciones = [x[0] for x in respuestas[pregunta_id]]
+                  for opcion in pregunta["pregunta"]["opciones"]:
+                    if opcion['id'] in opciones:
+                      opcion['dato']=1
+                    else:
+                       opcion['dato']=0
+           
+   return cuestionarios
 
 
 def to_cuestionario(object_1, object_2):

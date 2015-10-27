@@ -32,6 +32,7 @@ urlpatterns = patterns('',
     url(r'^cuestionarios', views.CuestionarioList.as_view()), 
     url(r'^afinidad/detalle', views.AfinidadList.as_view({'post':'detail'})), 
     url(r'^afinidad', views.AfinidadList.as_view({'post':'list'})), 
+    url(r'^busqueda/(?P<pk>[0-9]+)', views.BusquedaRetrieve.as_view()),
     url(r'^docs/', include('rest_framework_swagger.urls')), # url documentation
 
     url(r'^rest-auth/', include('rest_auth.urls')),
