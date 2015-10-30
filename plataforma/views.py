@@ -197,7 +197,7 @@ class ProblemaSolucionListCreate(generics.ListCreateAPIView):
 
         return queryset.filter()
     def post(self, request, *args, **kwargs):
-
+       #print request.stream.body
        if "cuestionario" in request.data:
          request.data["respuestas_cuestionario"]=eval(to_python_object(request.data["cuestionario"]))
          #return Response("ok")

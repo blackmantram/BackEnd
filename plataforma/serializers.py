@@ -67,9 +67,9 @@ class ProblemaSolucionSerializer(serializers.Serializer):
   fecha = serializers.DateTimeField(required=False, allow_null=True)
   tipo = serializers.ChoiceField([('P','PROBLEMA'),('S','SOLUCION')])
   respuestas_cuestionario = serializers.CharField()
-  tags = serializers.SlugRelatedField(many=True,queryset=Tag.objects.all(),slug_field='tag',required=False)
+  tags = serializers.SlugRelatedField(many=True,queryset=Tag.objects.all(),slug_field='tag',required=True)
   usuario = serializers.PrimaryKeyRelatedField(queryset=Usuario.objects.all())
-  categorias = serializers.PrimaryKeyRelatedField(many=True, queryset=Categoria.objects.all())
+  categorias = serializers.PrimaryKeyRelatedField(many=True, queryset=Categoria.objects.all(), requires=True)
   categorias_completas = CategoriaSerializer(many=True,read_only=True, source="categorias")
 
   def to_internal_value(self, data):
