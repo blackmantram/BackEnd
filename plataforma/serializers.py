@@ -66,8 +66,12 @@ class RespuestaProblemaSolucionAsociadaSerializer(serializers.ModelSerializer):
 
 
 class RespuestaProblemaSerializer(serializers.ModelSerializer):
+   id_busqueda_respuesta= serializers.IntegerField(source='id',read_only=True)
+   respuesta = RespuestaProblemaSolucionAsociadaSerializer(read_only=True)
    class Meta:
         model = RespuestaProblemaSolucion  
+        fields =('id_busqueda_respuesta','respuesta')
+
 
 class ProblemaSolucionSerializer(serializers.Serializer):
   
@@ -81,8 +85,9 @@ class ProblemaSolucionSerializer(serializers.Serializer):
   usuario = serializers.PrimaryKeyRelatedField(queryset=Usuario.objects.all())
   categorias = serializers.PrimaryKeyRelatedField(many=True, queryset=Categoria.objects.all(), required=True)
   categorias_completas = CategoriaSerializer(many=True,read_only=True, source="categorias")
-  respuestas_asociadas = RespuestaProblemaSolucionAsociadaSerializer(many=True,read_only=True)
-  
+  respuestas_asociadas = RespuestaProblemaSerializer(source='busqueda',many=True)
+  # respuestas_asociadas = RespuestaProblemaSerializer(many=True,read_only=True)
+  #respuesta = serializers.Forein
 
   def to_internal_value(self, data):
         if data.get("tags") is not None:   # si existen tags
