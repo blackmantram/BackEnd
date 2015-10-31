@@ -69,7 +69,7 @@ class ProblemaSolucionSerializer(serializers.Serializer):
   respuestas_cuestionario = serializers.CharField()
   tags = serializers.SlugRelatedField(many=True,queryset=Tag.objects.all(),slug_field='tag',required=True)
   usuario = serializers.PrimaryKeyRelatedField(queryset=Usuario.objects.all())
-  categorias = serializers.PrimaryKeyRelatedField(many=True, queryset=Categoria.objects.all(), requires=True)
+  categorias = serializers.PrimaryKeyRelatedField(many=True, queryset=Categoria.objects.all(), required=True)
   categorias_completas = CategoriaSerializer(many=True,read_only=True, source="categorias")
 
   def to_internal_value(self, data):
