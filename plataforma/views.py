@@ -179,6 +179,14 @@ class CategoriaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
 
+class RespuestaProblemaSolucionCreate(generics.CreateAPIView):
+    queryset = RespuestaProblemaSolucion.objects.all()
+    serializer_class = RespuestaProblemaSolucionSerializer 
+    
+
+class RespuestaProblemaSolucionDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = RespuestaProblemaSolucion.objects.all()
+    serializer_class = RespuestaProblemaSolucionSerializer
 
 class ProblemaSolucionListCreate(generics.ListCreateAPIView):
     queryset = ProblemaSolucion.objects.all()

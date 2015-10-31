@@ -36,6 +36,9 @@ urlpatterns = patterns('',
     url(r'^cuestionarios', views.CuestionarioList.as_view()), 
     url(r'^afinidad/detalle', views.AfinidadList.as_view({'post':'detail'})), 
     url(r'^afinidad', views.AfinidadList.as_view({'post':'list'})), 
+
+    url(r'^respuestas/busqueda/(?P<pk>[0-9]+)', views.RespuestaProblemaSolucionDetail.as_view()),
+    url(r'^respuestas/busqueda', views.RespuestaProblemaSolucionCreate.as_view()),
     url(r'^busqueda/(?P<pk>[0-9]+)', views.BusquedaCreateRetrieve.as_view({'get':'get'})),
     url(r'^docs/', include('rest_framework_swagger.urls')), # url documentation
 

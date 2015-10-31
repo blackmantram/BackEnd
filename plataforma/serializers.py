@@ -59,9 +59,19 @@ class CategoriaSerializer(serializers.ModelSerializer):
    class Meta:
         model = Categoria
 
+class RespuestaProblemaSolucionAsociadaSerializer(serializers.ModelSerializer):
+   class Meta:
+        model = ProblemaSolucion
+        fields =('id','titulo','descripcion','fecha','tipo','usuario')
+
+
+class RespuestaProblemaSerializer(serializers.ModelSerializer):
+   class Meta:
+        model = RespuestaProblemaSolucion  
+
 class ProblemaSolucionSerializer(serializers.Serializer):
   
-  id = serializers.IntegerField(read_only=True)                                             
+  id = serializers.IntegerField(read_only=True)   
   titulo = serializers.CharField(max_length=200)
   descripcion =serializers.CharField()
   fecha = serializers.DateTimeField(required=False, allow_null=True)
@@ -71,6 +81,8 @@ class ProblemaSolucionSerializer(serializers.Serializer):
   usuario = serializers.PrimaryKeyRelatedField(queryset=Usuario.objects.all())
   categorias = serializers.PrimaryKeyRelatedField(many=True, queryset=Categoria.objects.all(), required=True)
   categorias_completas = CategoriaSerializer(many=True,read_only=True, source="categorias")
+  respuestas_asociadas = RespuestaProblemaSolucionAsociadaSerializer(many=True,read_only=True)
+  
 
   def to_internal_value(self, data):
         if data.get("tags") is not None:   # si existen tags
