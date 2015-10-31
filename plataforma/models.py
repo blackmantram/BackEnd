@@ -67,12 +67,8 @@ class ProblemaSolucion(models.Model):
 
 
 class RespuestaProblemaSolucion(models.Model):
-    titulo = models.CharField(max_length=200, null=True)
-    descripcion =models.TextField(null=True)
-    fecha = models.DateTimeField(auto_now=True, null=False)
-    tipo = models.CharField(max_length=1,choices=(('P','PROBLEMA'),('S','SOLUCION')),default='P',
-                                                  null=False, blank=False)
-    usuario = models.ForeignKey(Usuario,null=False)
+    busqueda = models.ForeignKey(ProblemaSolucion,null=False,related_name='busqueda')
+    respuesta = models.ForeignKey(ProblemaSolucion,null=False,related_name='respuesta')
     
 
    
