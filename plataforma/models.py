@@ -69,7 +69,7 @@ class ProblemaSolucion(models.Model):
 
 class RespuestaProblemaSolucion(models.Model):
     busqueda = models.ForeignKey(ProblemaSolucion,null=False,related_name='busqueda')
-    respuesta = models.ForeignKey(ProblemaSolucion,null=False,related_name='respuesta')
+    respuesta= models.ForeignKey(ProblemaSolucion,null=False,related_name='respuesta')
     
 
    

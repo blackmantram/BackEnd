@@ -67,10 +67,11 @@ class RespuestaProblemaSolucionAsociadaSerializer(serializers.ModelSerializer):
 
 class RespuestaProblemaSerializer(serializers.ModelSerializer):
    id_busqueda_respuesta= serializers.IntegerField(source='id',read_only=True)
-   respuesta = RespuestaProblemaSolucionAsociadaSerializer(read_only=True)
+   problema_solucion = RespuestaProblemaSolucionAsociadaSerializer(read_only=True,source='respuesta')
+ 
    class Meta:
         model = RespuestaProblemaSolucion  
-        fields =('id_busqueda_respuesta','respuesta')
+        fields =('id_busqueda_respuesta','problema_solucion')
 
 
 class ProblemaSolucionSerializer(serializers.Serializer):
