@@ -11,7 +11,7 @@ def to_python_object(cuestionarios):
               else:  
                 w = "["
                 for opcion in pregunta["pregunta"]["opciones"]:
-                  print opcion["id"]
+              
                   if opcion['dato']:
                     w=w+ "(" +  str(opcion["id"]) + "," + str(opcion["valor"])+") , "
                 # if len(w)==1:
@@ -163,6 +163,43 @@ def similitud_detalle(o1, o2,preguntas_similitud):
       preguntas_respuestas.append({"cuestionario":texto_cuestionario,"pregunta":texto_pregunta,"respuestas":respuestas})
   
     return preguntas_respuestas
+
+
+def cuestionario_afinidad(cuestionarios_json,problemas_soluciones,pagina,num_registros):
+       dependencias=get_dependencias(cuestionarios_json)
+       cuestionario = eval(to_python_object(cuestionarios_json))
+       similitudes = []
+       preguntas={}
+ 
+       for preg in cuestionario:
+         p=PreguntasSimilitud.objects.get(pregunta_A=preg)
+         funcion =  eval(p.funcion.funcion) 
+         preguntas[preg]={'pregunta_B': p.pregunta_B.id,'similitud': funcion}
+       
+       
+       
+       for ps in problemas_soluciones:
+         similitudes.append((ps.id,similitud(cuestionario,eval(ps.respuestas_cuestionario),preguntas,dependencias)))
+      
+       total = len(problemas_soluciones)
+       min_registro = (pagina-1)*num_registros
+       max_registro =  pagina*num_registros
+       so = sorted(similitudes, key=lambda d: d[1], reverse=True)[min_registro:max_registro]
+       ids = [id[0] for id in so]
+        
+       ps=[]
+       for i in range(0,len(so)):
+          problema_solucion=ProblemaSolucion.objects.filter(id=ids[i]).values()[0]
+          usuario = Usuario.objects.filter(pk=problema_solucion["usuario_id"]).values()[0]
+          nivel_afinidad = so[i]
+          ps.append({"problema_solucion": problema_solucion, "usuario":usuario, "nivel_afinidad": nivel_afinidad[1] })
+       respuesta = {"problemas_soluciones": ps, "total":total}
+       return respuesta
+
+
+
+    
+
 
 
 
