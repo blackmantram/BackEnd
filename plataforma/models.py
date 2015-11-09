@@ -70,7 +70,12 @@ class ProblemaSolucion(models.Model):
 class RespuestaProblemaSolucion(models.Model):
     busqueda = models.ForeignKey(ProblemaSolucion,null=False,related_name='busqueda')
     respuesta= models.ForeignKey(ProblemaSolucion,null=False,related_name='respuesta')
-    
+    titulo = models.CharField(max_length=200, null=False)
+    descripcion =models.TextField(null=True)
+    fecha = models.DateTimeField(null=False,blank=False)
+    tipo = models.CharField(max_length=1,choices=(('P','PROBLEMA'),('S','SOLUCION')),default='P',
+                                                  null=False, blank=False)
+  
 
    
 class Pregunta(models.Model):

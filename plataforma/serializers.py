@@ -86,7 +86,7 @@ class ProblemaSolucionSerializer(serializers.Serializer):
   usuario = serializers.PrimaryKeyRelatedField(queryset=Usuario.objects.all())
   categorias = serializers.PrimaryKeyRelatedField(many=True, queryset=Categoria.objects.all(), required=True)
   categorias_completas = CategoriaSerializer(many=True,read_only=True, source="categorias")
-  respuestas_asociadas = RespuestaProblemaSerializer(source='busqueda',many=True)
+  #respuestas_asociadas = RespuestaProblemaSerializer(source='busqueda',many=True)
   # respuestas_asociadas = RespuestaProblemaSerializer(many=True,read_only=True)
   #respuesta = serializers.Forein
 

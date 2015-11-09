@@ -11,6 +11,7 @@ def to_python_object(cuestionarios):
               else:  
                 w = "["
                 for opcion in pregunta["pregunta"]["opciones"]:
+                  print opcion["id"]
                   if opcion['dato']:
                     w=w+ "(" +  str(opcion["id"]) + "," + str(opcion["valor"])+") , "
                 # if len(w)==1:
@@ -47,7 +48,8 @@ def python_object_to_cuestionario(respuestas,cuestionarios):
                 else:
                   pregunta["pregunta"]["dato"]=0
               else:
-                print pregunta_id
+                for opcion in pregunta["pregunta"]["opciones"]:
+                  opcion['dato']=0
 
                 if pregunta_id in respuestas: 
                   # print pregunta 

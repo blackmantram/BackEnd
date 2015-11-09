@@ -27,6 +27,7 @@ class BusquedaCreateRetrieve(viewsets.ViewSet):
       ps_serial = ProblemaSolucionSerializer(ps)
       respuesta = ps_serial.data
       respuesta["cuestionario"]= cuestionario
+      respuesta["respuestas_asociadas"]= cuestionario_afinidad(cuestionario,ProblemaSolucion.objects.filter(tipo='S'),1,10)
       return Response(respuesta)
     def create(self,request):
 
@@ -345,7 +346,6 @@ class CuestionarioList(generics.ListAPIView):
 class AfinidadList(viewsets.ViewSet):
     def list(self,request):
        num_registros=10;
-       print request.stream.body
        busqueda = request.data["cuestionario"]
        cuestionarios_json = busqueda["cuestionarios"];
        if(busqueda["tipo"]=="P"):
@@ -353,37 +353,38 @@ class AfinidadList(viewsets.ViewSet):
        else:
          tipo = 'P'   
 
-
-       pagina = int(request.data["pagina"])
-       dependencias=get_dependencias(cuestionarios_json)
-       cuestionario = eval(to_python_object(cuestionarios_json))
-       similitudes = []
-       preguntas={}
-
-       
-       for preg in cuestionario:
-         p=PreguntasSimilitud.objects.get(pregunta_A=preg)
-         funcion =  eval(p.funcion.funcion) 
-         preguntas[preg]={'pregunta_B': p.pregunta_B.id,'similitud': funcion}
-       
-       
        problemas_soluciones=ProblemaSolucion.objects.filter(tipo=tipo);
-       for ps in problemas_soluciones:
-         similitudes.append((ps.id,similitud(cuestionario,eval(ps.respuestas_cuestionario),preguntas,dependencias)))
+       pagina = int(request.data["pagina"])
+
+       respuesta=cuestionario_afinidad(cuestionarios_json,problemas_soluciones,pagina,num_registros)
+       # dependencias=get_dependencias(cuestionarios_json)
+       # cuestionario = eval(to_python_object(cuestionarios_json))
+       # similitudes = []
+       # preguntas={}
+ 
+       # for preg in cuestionario:
+       #   p=PreguntasSimilitud.objects.get(pregunta_A=preg)
+       #   funcion =  eval(p.funcion.funcion) 
+       #   preguntas[preg]={'pregunta_B': p.pregunta_B.id,'similitud': funcion}
+       
+       
+       
+       # for ps in problemas_soluciones:
+       #   similitudes.append((ps.id,similitud(cuestionario,eval(ps.respuestas_cuestionario),preguntas,dependencias)))
       
-       total = len(ProblemaSolucion.objects.filter(tipo=tipo))
-       min_registro = (pagina-1)*num_registros
-       max_registro =  pagina*num_registros
-       so = sorted(similitudes, key=lambda d: d[1], reverse=True)[min_registro:max_registro]
-       ids = [id[0] for id in so]
+       # total = len(ProblemaSolucion.objects.filter(tipo=tipo))
+       # min_registro = (pagina-1)*num_registros
+       # max_registro =  pagina*num_registros
+       # so = sorted(similitudes, key=lambda d: d[1], reverse=True)[min_registro:max_registro]
+       # ids = [id[0] for id in so]
         
-       ps=[]
-       for i in range(0,len(so)):
-          problema_solucion=ProblemaSolucion.objects.filter(id=ids[i]).values()[0]
-          usuario = Usuario.objects.filter(pk=problema_solucion["usuario_id"]).values()[0]
-          nivel_afinidad = so[i]
-          ps.append({"problema_solucion": problema_solucion, "usuario":usuario, "nivel_afinidad": nivel_afinidad[1] })
-       respuesta = {"problemas_soluciones": ps, "total":total}
+       # ps=[]
+       # for i in range(0,len(so)):
+       #    problema_solucion=ProblemaSolucion.objects.filter(id=ids[i]).values()[0]
+       #    usuario = Usuario.objects.filter(pk=problema_solucion["usuario_id"]).values()[0]
+       #    nivel_afinidad = so[i]
+       #    ps.append({"problema_solucion": problema_solucion, "usuario":usuario, "nivel_afinidad": nivel_afinidad[1] })
+       # respuesta = {"problemas_soluciones": ps, "total":total}
        return Response(respuesta)
 
     def detail(self,request):
@@ -407,5 +408,37 @@ class AfinidadList(viewsets.ViewSet):
       
 
 
+def cuestionario_afinidad(cuestionarios_json,problemas_soluciones,pagina,num_registros):
+       dependencias=get_dependencias(cuestionarios_json)
+       cuestionario = eval(to_python_object(cuestionarios_json))
+       similitudes = []
+       preguntas={}
+ 
+       for preg in cuestionario:
+         p=PreguntasSimilitud.objects.get(pregunta_A=preg)
+         funcion =  eval(p.funcion.funcion) 
+         preguntas[preg]={'pregunta_B': p.pregunta_B.id,'similitud': funcion}
+       
+       
+       
+       for ps in problemas_soluciones:
+         similitudes.append((ps.id,similitud(cuestionario,eval(ps.respuestas_cuestionario),preguntas,dependencias)))
+      
+       total = len(problemas_soluciones)
+       min_registro = (pagina-1)*num_registros
+       max_registro =  pagina*num_registros
+       so = sorted(similitudes, key=lambda d: d[1], reverse=True)[min_registro:max_registro]
+       ids = [id[0] for id in so]
+        
+       ps=[]
+       for i in range(0,len(so)):
+          problema_solucion=ProblemaSolucion.objects.filter(id=ids[i]).values()[0]
+          usuario = Usuario.objects.filter(pk=problema_solucion["usuario_id"]).values()[0]
+          nivel_afinidad = so[i]
+          ps.append({"problema_solucion": problema_solucion, "usuario":usuario, "nivel_afinidad": nivel_afinidad[1] })
+       respuesta = {"problemas_soluciones": ps, "total":total}
+       return respuesta
 
 
+
+    
