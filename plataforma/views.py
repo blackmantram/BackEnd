@@ -451,6 +451,12 @@ class ConversacionView(viewsets.ViewSet):
       conversacion_serializer = ConversacionMensajesSerializer(conversacion)
       return Response(conversacion_serializer.data)  
 
+    def get_conversation_pk(self,request,pk):
+      conversacion=Conversacion.objects.get(pk=pk)
+      conversacion_serializer = ConversacionMensajesSerializer(conversacion)
+      return Response(conversacion_serializer.data)  
+
+    
     def list(self,request,usuario):
       conversaciones = Conversacion.objects.filter(Q(busqueda__usuario_id=usuario)|Q(busqueda__usuario_id=usuario))
       cs = ConversacionSerializer(conversaciones,many=True)
