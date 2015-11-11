@@ -15,6 +15,8 @@ from plataforma.models import Pregunta
 from plataforma.models import OpcionesDeRespuesta
 from plataforma.models import CuestionarioRol
 from plataforma.models import ProblemaSolucionOpcionRespuesta
+from plataforma.models import Conversacion
+from plataforma.models import Mensaje
 from django.contrib.auth.models import User
 
 
@@ -170,5 +172,23 @@ class CuestionarioRolSerializer(serializers.ModelSerializer):
 class ProblemaSolucionOpcionRespuestaSerializer(serializers.ModelSerializer):
   class Meta:
     model = ProblemaSolucionOpcionRespuesta    
+
+class ConversacionSerializer(serializers.ModelSerializer):
+  busqueda = ProblemaSolucionSerializer()
+  respuesta = ProblemaSolucionSerializer()
+  class Meta:
+    model = Conversacion
+ 
+class MensajeSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Mensaje
+
+
+class ConversacionMensajesSerializer(serializers.ModelSerializer):
+  busqueda = ProblemaSolucionSerializer()
+  respuesta = ProblemaSolucionSerializer()
+  mensajes = MensajeSerializer(many=True)
+  class Meta:
+    model = Conversacion   
 
 

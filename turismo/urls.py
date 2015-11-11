@@ -21,6 +21,10 @@ urlpatterns = patterns('',
     url(r'^sugerencias_tags/$', views.Sugerencias.as_view({'get':'list_sugerencias_tags'})), 
     url(r'^usuario/(?P<usuario>[0-9]+)/busquedas', views.ProblemaSolucionListCreate.as_view()), 
     url(r'^usuario/(?P<usuario>[0-9]+)/busquedas', views.BusquedaCreateRetrieve.as_view({'post':'create'})), 
+    url(r'^usuario/(?P<usuario>[0-9]+)/conversaciones', views.ConversacionView.as_view({'get':'list'})), 
+    
+    url(r'^conversaciones/mensaje', views.ConversacionView.as_view({'post':'create_message'})), 
+    url(r'^conversacion', views.ConversacionView.as_view({'get':'get_conversation'})), 
     
     url(r'^usuarios/(?P<pk>[0-9]+)/redes', views.UsuarioRedesList.as_view()),  
     url(r'^usuarios', views.UsuarioListCreate.as_view()), 
@@ -36,6 +40,8 @@ urlpatterns = patterns('',
     url(r'^cuestionarios', views.CuestionarioList.as_view()), 
     url(r'^afinidad/detalle', views.AfinidadList.as_view({'post':'detail'})), 
     url(r'^afinidad', views.AfinidadList.as_view({'post':'list'})), 
+  
+    
 
     url(r'^respuestas/busqueda/(?P<pk>[0-9]+)', views.RespuestaProblemaSolucionDetail.as_view()),
     url(r'^respuestas/busqueda', views.RespuestaProblemaSolucionCreate.as_view()),

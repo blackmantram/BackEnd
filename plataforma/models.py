@@ -140,6 +140,23 @@ class PreguntasSimilitud(models.Model):
   pregunta_B = models.ForeignKey(Pregunta,null=False,related_name='pregunta_solucion')
   funcion = models.ForeignKey(Similitud,null=False)
 
+
+
+class Conversacion(models.Model):
+    busqueda = models.ForeignKey(ProblemaSolucion,null=False,related_name='busqueda_')
+    respuesta= models.ForeignKey(ProblemaSolucion,null=True,related_name='respuesta_')
+    
+class Mensaje(models.Model):
+    mensaje = models.TextField(null=True)
+    fecha = models.DateTimeField(auto_now=True, null=False)
+    usuario_busqueda = models.ForeignKey(Usuario,null=True,related_name='usuario_busqueda')
+    usuario_respuesta = models.ForeignKey(Usuario,null=True,related_name='usuario_respuesta')
+    destinatario = models.ForeignKey(Usuario,null=True,related_name='usuario_destinatario')
+    visto = models.BooleanField(default=False)
+    conversacion = models.ForeignKey(Conversacion,null=False,related_name="mensajes")
+
+
+
   
    
 

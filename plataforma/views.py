@@ -11,8 +11,10 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authtoken.models import Token
 
+
 from plataforma.similarity import *
 from plataforma.emails import *
+from django.db.models import Q
 import json
 from plataforma.models import PreguntasSimilitud
 import logging 
@@ -424,4 +426,49 @@ class AfinidadList(viewsets.ViewSet):
       return Response(respuesta)
       
 
+
+class ConversacionView(viewsets.ViewSet):
+    def get_conversation(self,request):
+       
+      busqueda_id = self.request.QUERY_PARAMS.get('busqueda_id', None)
+      respuesta_id = self.request.QUERY_PARAMS.get('respuesta_id', None)
+      if busqueda_id==None or respuesta_id==None:
+       return Response({'error':'enviar las variables busqueda_id y respuesta_id en la url'},
+                              status=status.HTTP_400_BAD_REQUEST)
+
+      conversacion=Conversacion.objects.filter(busqueda_id=busqueda_id,respuesta_id=respuesta_id)
+      if len(conversacion)==0:
+       conversacion=None 
+       try:
+        conversacion=Conversacion.objects.create(busqueda_id=busqueda_id,respuesta_id=respuesta_id)
+       except:
+        return Response({'error':'busqueda_id o respuesta_id inválidas'},
+                              status=status.HTTP_400_BAD_REQUEST)
+          
+      else:
+        conversacion=conversacion[0]
+
+      conversacion_serializer = ConversacionMensajesSerializer(conversacion)
+      return Response(conversacion_serializer.data)  
+
+    def list(self,request,usuario):
+      conversaciones = Conversacion.objects.filter(Q(busqueda__usuario_id=usuario)|Q(busqueda__usuario_id=usuario))
+      cs = ConversacionSerializer(conversaciones,many=True)
+      cs = cs.data
+      i=0
+      for conversacion in cs:
+        conversacion["mensajes_sin_leer"]=len(conversaciones[i].mensajes.filter(visto=0,destinatario=usuario))
+        i=i+1
+      return Response(cs)
+
+    def create_message(self,request):
+        serializer = MensajeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        
 
