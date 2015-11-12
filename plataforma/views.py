@@ -456,6 +456,18 @@ class ConversacionView(viewsets.ViewSet):
       conversacion_serializer = ConversacionMensajesSerializer(conversacion)
       return Response(conversacion_serializer.data)  
 
+    def message_read(self,request,pk):
+     try:
+      mensaje=Mensaje.objects.get(pk=pk)
+      mensaje.visto=True
+      mensaje.save()
+      return Response("ok")
+     except:
+        return Response({'error':'id no válido'},
+                              status=status.HTTP_400_BAD_REQUEST)
+      
+
+
     
     def list(self,request,usuario):
       conversaciones = Conversacion.objects.filter(Q(busqueda__usuario_id=usuario)|Q(busqueda__usuario_id=usuario))
