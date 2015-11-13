@@ -7,7 +7,7 @@ class Rol(models.Model):
   descripcion = models.CharField(max_length=200, blank=True, null=True)
   imagen = models.CharField(max_length=200, blank=True, null=True)
   cuestionarios = models.ManyToManyField('Cuestionario', through='CuestionarioRol')
-  tipo_rol = models.CharField(max_length=2,choices=(('BC','Busca en comercio'),('BT','Turismo')),('O','Ofrece')),default='BC',null=False, blank=False)
+  tipo_rol = models.CharField(max_length=2,choices=(('BC','Busca en comercio'),('BT','Turismo'),('O','Ofrece')),default='BC',null=False, blank=False)
 class RedSocial(models.Model):
     nombre = models.CharField(max_length=200)
     url = models.CharField(max_length=200)
