@@ -30,6 +30,8 @@ urlpatterns = patterns('',
 
     url(r'^mensaje/leido/(?P<pk>[0-9]+)', views.ConversacionView.as_view({'put':'message_read'})), 
     
+    url(r'^municipios', views.MunicipiosView.as_view({'get':'list'})), 
+   
     url(r'^usuarios/(?P<pk>[0-9]+)/redes', views.UsuarioRedesList.as_view()),  
     url(r'^usuarios', views.UsuarioListCreate.as_view()), 
     url(r'^usuario', views.UsuarioDetail.as_view()),

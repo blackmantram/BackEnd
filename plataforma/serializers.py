@@ -38,7 +38,11 @@ class RolSerializer(serializers.ModelSerializer):
    class Meta:
         model = Rol       
 
-
+class MunicipiosSerializer(serializers.ModelSerializer):
+  nombre = serializers.CharField(source='respuesta')
+  class Meta:
+        model = OpcionesDeRespuesta 
+        fields = ('id','nombre')    
                     
 class UsuarioSerializer(serializers.ModelSerializer):
    tags = serializers.SlugRelatedField(many=True,queryset=Tag.objects.all(),slug_field='tag', required=False)

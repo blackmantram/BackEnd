@@ -30,7 +30,7 @@ class Usuario(models.Model):
   correo_institucion = models.CharField(max_length=200, blank=True,null=True, default=None)
   NIT = models.CharField(max_length=200, blank=True, null=True,default=None)
   descripcion = models.TextField(null=True)
-  municipio_id = IntegerField(null=False)
+  municipio_id = models.IntegerField(null=False)
   rol = models.ForeignKey(Rol,blank=False)
   redes = models.ManyToManyField(RedSocial, through='UsuarioRedes')
   tags = tags = models.ManyToManyField(Tag)

@@ -52,7 +52,17 @@ class BusquedaCreateRetrieve(viewsets.ViewSet):
 
       return Response("ok")
       
+class MunicipiosView(viewsets.ViewSet):
+  def list(self,request):
+   try:
+    MUNICIPIOS = Variable.objects.filter(variable="MUNICIPIOS")[0]
+    municipios = OpcionesDeRespuesta.objects.filter(pregunta_id=MUNICIPIOS.valor)
+    municipios_serializer = MunicipiosSerializer(municipios,many=True)
+   except:
+    return Response({'error':'La variable MUNICIPIOS no existe en la tabla variables de la base de datos.El valor de esta variable debe ser el pregunta_id de la pregunta: -Donde te encuentras-.'},
+                              status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+   return Response(municipios_serializer.data)
 
 
 class RolListCreate(generics.ListCreateAPIView):
