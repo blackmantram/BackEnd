@@ -155,6 +155,13 @@ class Mensaje(models.Model):
     visto = models.BooleanField(default=False)
     conversacion = models.ForeignKey(Conversacion,null=False,related_name="mensajes")
 
+class Variable(models.Model):
+  variable = models.CharField(max_length=200, null=False)
+  valor = models.IntegerField()
+  descripcion = models.TextField(null=True)
+  
+ 
+
 
 
   

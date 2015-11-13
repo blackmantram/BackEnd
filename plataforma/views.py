@@ -58,7 +58,22 @@ class BusquedaCreateRetrieve(viewsets.ViewSet):
 class RolListCreate(generics.ListCreateAPIView):
     queryset = Rol.objects.all()
     serializer_class = RolSerializer
-    
+    def get_queryset(self):
+        queryset = super(RolListCreate, self).get_queryset()
+        tipo_rol = self.request.QUERY_PARAMS.get('tipo_rol', None)
+
+        if tipo_rol is None:
+           return queryset
+
+        if tipo_rol=='C':   
+          return queryset.filter(Q(tipo_rol="BC")|Q(tipo_rol="O"))
+
+        if tipo_rol=='T':   
+          return queryset.filter(Q(tipo_rol="BT")|Q(tipo_rol="O"))
+         
+ 
+        return queryset.filter(tipo_rol=tipo_rol)
+
 class RolDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Rol.objects.all()
