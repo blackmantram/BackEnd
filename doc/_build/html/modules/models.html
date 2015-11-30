@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Modelos &mdash; documentación de Laboratorios Virtuales - 1.0</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="documentación de Laboratorios Virtuales - 1.0" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="modelos">
+<h1>Modelos<a class="headerlink" href="#modelos" title="Enlazar permanentemente con este título">¶</a></h1>
+<span class="target" id="module-plataforma.models"></span><dl class="class">
+<dt id="plataforma.models.Categoria">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">Categoria</code><span class="sig-paren">(</span><em>id</em>, <em>nombre</em>, <em>nivel</em>, <em>categoria_padre</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.Categoria" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.Conversacion">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">Conversacion</code><span class="sig-paren">(</span><em>id</em>, <em>busqueda</em>, <em>respuesta</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.Conversacion" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.Cuestionario">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">Cuestionario</code><span class="sig-paren">(</span><em>id</em>, <em>titulo</em>, <em>descripcion</em>, <em>imagen</em>, <em>fecha</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.Cuestionario" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.CuestionarioPregunta">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">CuestionarioPregunta</code><span class="sig-paren">(</span><em>id</em>, <em>orden</em>, <em>pregunta</em>, <em>cuestionario</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.CuestionarioPregunta" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.CuestionarioRol">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">CuestionarioRol</code><span class="sig-paren">(</span><em>id</em>, <em>orden</em>, <em>cuestionario</em>, <em>rol</em>, <em>tipo</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.CuestionarioRol" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.Mensaje">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">Mensaje</code><span class="sig-paren">(</span><em>id</em>, <em>mensaje</em>, <em>fecha</em>, <em>usuario_busqueda</em>, <em>usuario_respuesta</em>, <em>destinatario</em>, <em>visto</em>, <em>conversacion</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.Mensaje" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.OpcionesDeRespuesta">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">OpcionesDeRespuesta</code><span class="sig-paren">(</span><em>id</em>, <em>respuesta</em>, <em>orden</em>, <em>valor</em>, <em>pregunta</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.OpcionesDeRespuesta" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.Pregunta">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">Pregunta</code><span class="sig-paren">(</span><em>id</em>, <em>enunciado</em>, <em>imagen</em>, <em>tipo_pregunta</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.Pregunta" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.PreguntasSimilitud">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">PreguntasSimilitud</code><span class="sig-paren">(</span><em>id</em>, <em>pregunta_A</em>, <em>pregunta_B</em>, <em>funcion</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.PreguntasSimilitud" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.ProblemaSolucion">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">ProblemaSolucion</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.ProblemaSolucion" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Representa un Problema Solución</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.ProblemaSolucionOpcionRespuesta">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">ProblemaSolucionOpcionRespuesta</code><span class="sig-paren">(</span><em>id</em>, <em>opcion_respuesta</em>, <em>problema_solucion</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.ProblemaSolucionOpcionRespuesta" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.RedSocial">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">RedSocial</code><span class="sig-paren">(</span><em>id</em>, <em>nombre</em>, <em>url</em>, <em>icono</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.RedSocial" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.RespuestaProblemaSolucion">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">RespuestaProblemaSolucion</code><span class="sig-paren">(</span><em>id</em>, <em>busqueda</em>, <em>respuesta</em>, <em>titulo</em>, <em>descripcion</em>, <em>fecha</em>, <em>tipo</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.RespuestaProblemaSolucion" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.Rol">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">Rol</code><span class="sig-paren">(</span><em>id</em>, <em>nombre</em>, <em>descripcion</em>, <em>imagen</em>, <em>tipo_rol</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.Rol" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.Similitud">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">Similitud</code><span class="sig-paren">(</span><em>id</em>, <em>funcion</em>, <em>descripcion</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.Similitud" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.Tag">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">Tag</code><span class="sig-paren">(</span><em>id</em>, <em>tag</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.Tag" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.Usuario">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">Usuario</code><span class="sig-paren">(</span><em>id</em>, <em>nombres</em>, <em>apellido1</em>, <em>apellido2</em>, <em>numero_documento</em>, <em>correo</em>, <em>nombre_institucion</em>, <em>telefono_institucion</em>, <em>ubicacion_institucion</em>, <em>direccion_institucion</em>, <em>correo_institucion</em>, <em>NIT</em>, <em>descripcion</em>, <em>municipio_id</em>, <em>rol</em>, <em>user</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.Usuario" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.UsuarioRedes">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">UsuarioRedes</code><span class="sig-paren">(</span><em>id</em>, <em>url</em>, <em>usuario</em>, <em>red_social</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.UsuarioRedes" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plataforma.models.Variable">
+<em class="property">class </em><code class="descclassname">plataforma.models.</code><code class="descname">Variable</code><span class="sig-paren">(</span><em>id</em>, <em>variable</em>, <em>valor</em>, <em>descripcion</em><span class="sig-paren">)</span><a class="headerlink" href="#plataforma.models.Variable" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/models.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Introduzca los términos de búsqueda o un nombre de módulo, clase o función.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Equipo Laboratorios Virtuales.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="../_sources/modules/models.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

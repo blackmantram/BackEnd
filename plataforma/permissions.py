@@ -1,6 +1,6 @@
 from rest_framework import permissions
  
- 
+## Clase que a futuro permitirá manejar los permisos de administradores. 
 class IsStaffOrTargetUser(permissions.BasePermission):
     def has_permission(self, request, view):
         # allow user to list all users if logged in user is staff

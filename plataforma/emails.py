@@ -1,11 +1,17 @@
+# coding=utf-8 
+
 from django.template import Context
 from django.template.loader import get_template
 from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
 from email.MIMEImage import MIMEImage
 import os
+
+
 from django.conf import settings
+## Función encargada de enviar el correo de inscripción. Recibe el correo de detido y el contenido del correo.
 
 def enviar_correo(destinatario,contenido):
+
   template = get_template('inscripcion.html')
   context = Context(contenido)
   content = template.render(context)

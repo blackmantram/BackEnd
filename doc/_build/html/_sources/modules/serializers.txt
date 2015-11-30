@@ -1,0 +1,7 @@
+Serializers
+======
+
+.. automodule:: plataforma.serializers
+    :members:
+
+

@@ -137,7 +137,7 @@ class UsuarioListCreate(generics.ListCreateAPIView):
                               status=status.HTTP_400_BAD_REQUEST)
              
         
-      user = UserSerializer(data={'username':correo,'email':correo,'password': password})
+      user = UserSerializer(data={'email':correo,'password': password, 'username':correo})
       usuario = UsuarioSerializer(data=request.data)
       if user.is_valid():
         if usuario.is_valid(): 
@@ -496,7 +496,7 @@ class ConversacionView(viewsets.ViewSet):
 
     
     def list(self,request,usuario):
-      conversaciones = Conversacion.objects.filter(Q(busqueda__usuario_id=usuario)|Q(busqueda__usuario_id=usuario))
+      conversaciones = Conversacion.objects.filter(Q(busqueda__usuario_id=usuario)|Q(respuesta__usuario_id=usuario))
       cs = ConversacionSerializer(conversaciones,many=True)
       cs = cs.data
       i=0

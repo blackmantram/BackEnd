@@ -1,3 +1,5 @@
+# coding=utf-8 
+
 from django.forms import widgets
 from rest_framework import serializers
 from plataforma import models
@@ -19,31 +21,36 @@ from plataforma.models import Conversacion
 from plataforma.models import Mensaje
 from django.contrib.auth.models import User
 
-
+# Serializador del modelo User de django.contrib.auth.models
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
     fields = ('username', 'email', 'password')
  
-
+# Serializador del modelo RedSocial
 class RedSocialSerializer(serializers.ModelSerializer):  
         class Meta:
             model = RedSocial      
 
+# Serializador del modelo UsuarioRedes
 class UsuarioRedesSerializer(serializers.ModelSerializer):
         class Meta:
             model = UsuarioRedes
+
+# Serializador del modelo Rol
 
 class RolSerializer(serializers.ModelSerializer):
    class Meta:
         model = Rol       
 
+# Serializador de los Municipios para el registro y para las preguntas. Corresponde al nodelo OpcionesDeRespuesta
 class MunicipiosSerializer(serializers.ModelSerializer):
   nombre = serializers.CharField(source='respuesta')
   class Meta:
         model = OpcionesDeRespuesta 
         fields = ('id','nombre')    
-                    
+              
+# Serializador del modelo Usuario      
 class UsuarioSerializer(serializers.ModelSerializer):
    tags = serializers.SlugRelatedField(many=True,queryset=Tag.objects.all(),slug_field='tag', required=False)
     
@@ -61,16 +68,19 @@ class UsuarioSerializer(serializers.ModelSerializer):
    class Meta:
         model = Usuario
 
+# Serializador del modelo Categoría
 class CategoriaSerializer(serializers.ModelSerializer):
    class Meta:
         model = Categoria
 
+# Serializador del modelo ProblemaSolucion, no incluye todos los campos.
 class RespuestaProblemaSolucionAsociadaSerializer(serializers.ModelSerializer):
    class Meta:
         model = ProblemaSolucion
         fields =('id','titulo','descripcion','fecha','tipo','usuario')
 
 
+# Serializador del modelo RespuestaProblema
 class RespuestaProblemaSerializer(serializers.ModelSerializer):
    id_busqueda_respuesta= serializers.IntegerField(source='id',read_only=True)
    problema_solucion = RespuestaProblemaSolucionAsociadaSerializer(read_only=True,source='respuesta')
@@ -79,7 +89,7 @@ class RespuestaProblemaSerializer(serializers.ModelSerializer):
         model = RespuestaProblemaSolucion  
         fields =('id_busqueda_respuesta','problema_solucion')
 
-
+# Serializador del modelo ProblemaSolucion, incluye todos los campos.
 class ProblemaSolucionSerializer(serializers.Serializer):
   
   id = serializers.IntegerField(read_only=True)   
@@ -134,48 +144,54 @@ class ProblemaSolucionSerializer(serializers.Serializer):
         except:
              tag_object = Tag.objects.create(tag=tag)
          
- 
+ # Serializador del modelo RespuestaProblemaSolucion
 class RespuestaProblemaSolucionSerializer(serializers.ModelSerializer):
    class Meta:
         model = RespuestaProblemaSolucion
 
+# Serializador del modelo Tag
 class TagSerializer(serializers.ModelSerializer):
    class Meta:
         model = Tag
 
+# Serializador del modelo OpcionesDeRespuesta
 class OpcionesDeRespuestaSerializer(serializers.ModelSerializer,serializers.Serializer):
   class Meta:
         model = OpcionesDeRespuesta
         
 
-
+# Serializador del modelo Pregunta
 class PreguntaSerializer(serializers.ModelSerializer):
    opciones = OpcionesDeRespuestaSerializer(many=True,read_only=True) 
    class Meta:
         model = Pregunta
         
-
+# Serializador del modelo CuestionarioPregunta
 class CuestionarioPreguntaSerializer(serializers.ModelSerializer):
   pregunta = PreguntaSerializer()
   class Meta:
     model = CuestionarioPregunta
 
   
-
+# Serializador del modelo Cuestionario
 class CuestionarioSerializer(serializers.ModelSerializer): 
    preguntas = CuestionarioPreguntaSerializer(source='cuestionariopregunta_set', many=True)  
    class Meta:
         model = Cuestionario      
         depth=4     
 
+# Serializador del modelo ProblemaSolucionOpcionRespuesta
 class CuestionarioRolSerializer(serializers.ModelSerializer):
   cuestionario = CuestionarioSerializer()
   class Meta:
     model = CuestionarioRol
 
+# Serializador del modelo Cuestionario
 class ProblemaSolucionOpcionRespuestaSerializer(serializers.ModelSerializer):
   class Meta:
     model = ProblemaSolucionOpcionRespuesta    
+
+# Serializador del modelo Conversación
 
 class ConversacionSerializer(serializers.ModelSerializer):
   busqueda = ProblemaSolucionSerializer()
@@ -183,11 +199,12 @@ class ConversacionSerializer(serializers.ModelSerializer):
   class Meta:
     model = Conversacion
  
+ # Serializador del modelo Mensaje
 class MensajeSerializer(serializers.ModelSerializer):
   class Meta:
     model = Mensaje
 
-
+# Serializador del modelo conversación.
 class ConversacionMensajesSerializer(serializers.ModelSerializer):
   busqueda = ProblemaSolucionSerializer()
   respuesta = ProblemaSolucionSerializer()
