@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -35,9 +36,16 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
+    'rest_framework_swagger',   #Django-REST Library that generates online documentation, See: http://django-rest-swagger.readthedocs.org/en/latest/ 
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
     'landing_page',
     'plataforma',
 )
@@ -54,7 +62,10 @@ MIDDLEWARE_CLASSES = (
   
 )
 
+SITE_ID = 1
 ROOT_URLCONF = 'turismo.urls'
+
+RESET_PASSWORD_FRONTEND_URL=""
 
 WSGI_APPLICATION = 'turismo.wsgi.application'
 
@@ -65,14 +76,21 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 DATABASES = {
     'default': {
- 	'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'camjoha_turismo',
-        'USER': 'camjoha_turismo',
-        'PASSWORD': 'turismo@3945',
+    'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'plataforma',
+        'USER': 'root',
+        'PASSWORD': 'root',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
 }
+# smtp 
+# python -m smtpd -n -c DebuggingServer localhost:1025
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = '1025'
+EMAIL_USE_TLS = False
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -93,3 +111,27 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#MEDIA_ROOT = (
+#                    os.path.join(os.path.dirname(__file__),'media'),
+#)
+
+TEMPLATE_DIRS = (
+                    os.path.join(os.path.dirname(__file__),'templates'),
+)
+
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+#Modificar django.contrib.auth username maxchar=100
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
